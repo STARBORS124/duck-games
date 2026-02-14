@@ -123,6 +123,16 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            transition: all 0.3s;
+        }
+
+        .balance-box.sync {
+            animation: syncFlash 0.3s;
+        }
+
+        @keyframes syncFlash {
+            0%, 100% { border-color: #FBBF24; }
+            50% { border-color: #34D399; box-shadow: 0 0 10px #34D399; }
         }
 
         .star-icon {
@@ -154,6 +164,34 @@
         .menu-title::before {
             content: '🦆';
             font-size: 22px;
+        }
+
+        /* Глобальная статистика */
+        .global-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .global-stat-card {
+            background: #1E293B;
+            border-radius: 20px;
+            padding: 12px 4px;
+            text-align: center;
+            border: 1px solid #FBBF24;
+        }
+
+        .global-stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #FBBF24;
+        }
+
+        .global-stat-label {
+            font-size: 10px;
+            color: #94A3B8;
+            margin-top: 4px;
         }
 
         .games-grid {
@@ -264,28 +302,27 @@
 
         .game-menu-stats {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
             margin-bottom: 20px;
         }
 
         .game-menu-stat {
             background: #0F172A;
-            border-radius: 20px;
-            padding: 16px 8px;
+            border-radius: 16px;
+            padding: 12px 4px;
             text-align: center;
             border: 1px solid #FBBF24;
         }
 
         .stat-value {
-            font-size: 24px;
+            font-size: 18px;
             font-weight: 700;
             color: #FBBF24;
-            line-height: 1.2;
         }
 
         .stat-label {
-            font-size: 12px;
+            font-size: 10px;
             color: #94A3B8;
             margin-top: 4px;
         }
@@ -507,6 +544,10 @@
             font-weight: bold;
         }
 
+        .case-item:hover {
+            transform: scale(0.95);
+        }
+
         .case-item.opened {
             background: #475569;
             border-color: #64748B;
@@ -573,10 +614,6 @@
             box-shadow: 0 6px 0 #1E293B;
         }
 
-        .game-btn.secondary:hover {
-            background: #5A6A7A;
-        }
-
         /* Результат */
         .game-result {
             margin-top: 16px;
@@ -622,6 +659,13 @@
             20%, 60% { transform: translateX(-5px); }
             40%, 80% { transform: translateX(5px); }
         }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #FBBF24;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -639,7 +683,7 @@
                     <div class="duck-icon">🦆</div>
                     <div class="logo-text">DUCK GAMES</div>
                 </div>
-                <div class="balance-box">
+                <div class="balance-box" id="balanceBox">
                     <span class="star-icon">⭐️</span>
                     <span class="balance-num" id="balanceDisplay">0</span>
                     <span class="balance-label">STARS</span>
@@ -649,6 +693,26 @@
 
         <!-- Главное меню -->
         <div id="mainMenu">
+            <!-- Глобальная статистика (реальная, от всех игроков) -->
+            <div class="global-stats" id="globalStats">
+                <div class="global-stat-card">
+                    <div class="global-stat-value" id="globalPlays">0</div>
+                    <div class="global-stat-label">ВСЕГО ИГР</div>
+                </div>
+                <div class="global-stat-card">
+                    <div class="global-stat-value" id="globalWins">0</div>
+                    <div class="global-stat-label">ПОБЕД</div>
+                </div>
+                <div class="global-stat-card">
+                    <div class="global-stat-value" id="globalWinRate">0%</div>
+                    <div class="global-stat-label">ВИНРЕЙТ</div>
+                </div>
+                <div class="global-stat-card">
+                    <div class="global-stat-value" id="globalBank">0</div>
+                    <div class="global-stat-label">БАНК⭐️</div>
+                </div>
+            </div>
+
             <div class="menu-title">
                 Выбери игру
             </div>
@@ -660,8 +724,8 @@
                     <div class="card-name">Слоты</div>
                     <div class="card-desc">x2 - x10 множитель</div>
                     <div class="card-stats">
-                        <span class="card-stat">⚡️ 1.2k</span>
-                        <span class="card-stat">👥 234</span>
+                        <span class="card-stat" id="slotsGlobal">⚡️ 0</span>
+                        <span class="card-stat" id="slotsPlayers">👥 0</span>
                     </div>
                 </div>
 
@@ -671,8 +735,8 @@
                     <div class="card-name">Кости</div>
                     <div class="card-desc">Угадай число x6</div>
                     <div class="card-stats">
-                        <span class="card-stat">⚡️ 892</span>
-                        <span class="card-stat">👥 156</span>
+                        <span class="card-stat" id="diceGlobal">⚡️ 0</span>
+                        <span class="card-stat" id="dicePlayers">👥 0</span>
                     </div>
                 </div>
 
@@ -682,8 +746,8 @@
                     <div class="card-name">Орёл/Решка</div>
                     <div class="card-desc">x2 выигрыш</div>
                     <div class="card-stats">
-                        <span class="card-stat">⚡️ 1.5k</span>
-                        <span class="card-stat">👥 321</span>
+                        <span class="card-stat" id="coinGlobal">⚡️ 0</span>
+                        <span class="card-stat" id="coinPlayers">👥 0</span>
                     </div>
                 </div>
 
@@ -693,8 +757,8 @@
                     <div class="card-name">Кейсы</div>
                     <div class="card-desc">5-100⭐️ приз</div>
                     <div class="card-stats">
-                        <span class="card-stat">⚡️ 567</span>
-                        <span class="card-stat">👥 98</span>
+                        <span class="card-stat" id="casesGlobal">⚡️ 0</span>
+                        <span class="card-stat" id="casesPlayers">👥 0</span>
                     </div>
                 </div>
             </div>
@@ -714,89 +778,84 @@
         let selectedChoice = null;
         let userBalance = 0;
         let syncInterval = null;
-
-        // Статистика для каждой игры
-        let gameStats = {
-            slots: { played: 234, won: 98, totalWon: 1250 },
-            dice: { played: 156, won: 26, totalWon: 450 },
-            coin: { played: 321, won: 158, totalWon: 890 },
-            cases: { played: 98, won: 45, totalWon: 678 }
-        };
-
-        // История игр
-        let gameHistory = {
-            slots: [
-                { result: 'win', amount: 30 },
-                { result: 'lose', amount: 5 },
-                { result: 'lose', amount: 10 },
-                { result: 'win', amount: 50 }
-            ],
-            dice: [
-                { result: 'lose', amount: 2 },
-                { result: 'lose', amount: 5 },
-                { result: 'win', amount: 30 }
-            ],
-            coin: [
-                { result: 'win', amount: 10 },
-                { result: 'lose', amount: 5 },
-                { result: 'win', amount: 10 },
-                { result: 'lose', amount: 5 }
-            ],
-            cases: [
-                { result: 'win', amount: 25 },
-                { result: 'win', amount: 15 },
-                { result: 'lose', amount: 10 }
-            ]
-        };
+        let globalStats = {};
+        let userStats = {};
 
         tg.expand();
         tg.MainButton.hide();
 
-        // ===== СИНХРОНИЗАЦИЯ БАЛАНСА =====
-        
-        // Функция синхронизации баланса
+        // ===== СИНХРОНИЗАЦИЯ =====
+
         async function syncBalance() {
             try {
                 const response = await fetch(`/api/balance?user_id=${userId}&t=${Date.now()}`);
                 const data = await response.json();
                 
                 if (data.success) {
+                    // Обновляем баланс
                     const oldBalance = userBalance;
                     userBalance = data.balance;
                     
-                    // Обновляем все отображения баланса
+                    // Анимация при изменении
+                    if (oldBalance !== userBalance) {
+                        document.getElementById('balanceBox').classList.add('sync');
+                        setTimeout(() => {
+                            document.getElementById('balanceBox').classList.remove('sync');
+                        }, 300);
+                    }
+                    
+                    // Обновляем отображение
                     document.querySelectorAll('.balance-num, .play-balance').forEach(el => {
                         if (el) el.textContent = userBalance;
                     });
                     
-                    // Если баланс изменился, показываем уведомление
-                    if (oldBalance !== userBalance) {
-                        console.log(`Баланс синхронизирован: ${oldBalance} → ${userBalance}`);
-                        
-                        // Показываем всплывающее уведомление
-                        const balanceBox = document.querySelector('.balance-box');
-                        if (balanceBox) {
-                            balanceBox.style.animation = 'none';
-                            balanceBox.offsetHeight;
-                            balanceBox.style.animation = 'resultPop 0.3s';
-                        }
+                    // Обновляем глобальную статистику
+                    if (data.global_stats) {
+                        updateGlobalStats(data.global_stats);
                     }
-                } else {
-                    console.error('Ошибка синхронизации:', data.message);
+                    
+                    // Обновляем пользовательскую статистику
+                    if (data.user_stats) {
+                        userStats = data.user_stats;
+                    }
                 }
             } catch (error) {
-                console.error('Ошибка сети при синхронизации:', error);
+                console.error('Sync error:', error);
             }
         }
 
-        // Запускаем синхронизацию каждые 2 секунды
-        function startBalanceSync() {
-            if (syncInterval) clearInterval(syncInterval);
-            syncBalance(); // сразу синхронизируем
-            syncInterval = setInterval(syncBalance, 2000);
+        function updateGlobalStats(stats) {
+            globalStats = stats;
+            
+            // Общая статистика
+            let totalPlays = 0;
+            let totalWins = 0;
+            let totalBank = 0;
+            
+            for (let game in stats) {
+                totalPlays += stats[game].total_plays || 0;
+                totalWins += stats[game].total_wins || 0;
+                totalBank += stats[game].total_won || 0;
+                
+                // Обновляем карточки игр
+                document.getElementById(`${game}Global`).textContent = `⚡️ ${stats[game].total_plays || 0}`;
+                document.getElementById(`${game}Players`).textContent = `👥 ${Math.ceil((stats[game].total_plays || 0) / 10)}`;
+            }
+            
+            const winRate = totalPlays > 0 ? Math.round((totalWins / totalPlays) * 100) : 0;
+            
+            document.getElementById('globalPlays').textContent = totalPlays;
+            document.getElementById('globalWins').textContent = totalWins;
+            document.getElementById('globalWinRate').textContent = winRate + '%';
+            document.getElementById('globalBank').textContent = totalBank;
         }
 
-        // Останавливаем синхронизацию
+        function startBalanceSync() {
+            if (syncInterval) clearInterval(syncInterval);
+            syncBalance();
+            syncInterval = setInterval(syncBalance, 3000);
+        }
+
         function stopBalanceSync() {
             if (syncInterval) {
                 clearInterval(syncInterval);
@@ -804,30 +863,13 @@
             }
         }
 
-        // Принудительная синхронизация перед игрой
         async function preGameSync() {
             await syncBalance();
             return userBalance;
         }
 
-        // ===== ОСНОВНЫЕ ФУНКЦИИ =====
+        // ===== НАВИГАЦИЯ =====
 
-        function showError(text) {
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error-msg';
-            errorDiv.textContent = text;
-            
-            const activeArea = document.getElementById('gamePlay').style.display === 'block' ? 'gamePlay' : 'gameMenu';
-            const container = document.getElementById(activeArea);
-            
-            const oldError = container.querySelector('.error-msg');
-            if (oldError) oldError.remove();
-            
-            container.appendChild(errorDiv);
-            setTimeout(() => errorDiv.remove(), 3000);
-        }
-
-        // Показать меню игры
         function showGameMenu(game) {
             currentGame = game;
             
@@ -838,9 +880,20 @@
                 cases: { emoji: '🎁', name: 'Кейсы', desc: 'Открывай кейсы с призами' }
             };
 
-            const stats = gameStats[game];
-            const percent = stats.played > 0 ? Math.round((stats.won / stats.played) * 100) : 0;
-            const history = gameHistory[game] || [];
+            // Личная статистика (из userStats)
+            const stats = userStats[game] || { played: 0, won: 0, total_won: 0, total_bet: 0 };
+            const played = stats.played || 0;
+            const won = stats.won || 0;
+            const winRate = played > 0 ? Math.round((won / played) * 100) : 0;
+            const profit = (stats.total_won || 0) - (stats.total_bet || 0);
+
+            // История игр (заглушка, бот будет присылать реальную)
+            const history = [
+                { result: 'win', amount: 30 },
+                { result: 'lose', amount: 5 },
+                { result: 'win', amount: 15 },
+                { result: 'lose', amount: 10 }
+            ];
 
             let historyHtml = '';
             history.slice(0, 5).forEach(item => {
@@ -868,16 +921,20 @@
                 
                 <div class="game-menu-stats">
                     <div class="game-menu-stat">
-                        <div class="stat-value">${stats.played}</div>
+                        <div class="stat-value">${played}</div>
                         <div class="stat-label">ИГР</div>
                     </div>
                     <div class="game-menu-stat">
-                        <div class="stat-value">${stats.won}</div>
+                        <div class="stat-value">${won}</div>
                         <div class="stat-label">ПОБЕД</div>
                     </div>
                     <div class="game-menu-stat">
-                        <div class="stat-value">${percent}%</div>
+                        <div class="stat-value">${winRate}%</div>
                         <div class="stat-label">ВИНРЕЙТ</div>
+                    </div>
+                    <div class="game-menu-stat">
+                        <div class="stat-value">${profit >= 0 ? '+' : ''}${profit}</div>
+                        <div class="stat-label">ПРОФИТ</div>
                     </div>
                 </div>
                 
@@ -902,7 +959,6 @@
             syncBalance();
         }
 
-        // Начать игру
         function startGame(game) {
             currentGame = game;
             
@@ -1003,7 +1059,23 @@
             event.target.classList.add('selected');
         }
 
-        // Игровые функции с принудительной синхронизацией
+        function showError(text) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-msg';
+            errorDiv.textContent = text;
+            
+            const activeArea = document.getElementById('gamePlay').style.display === 'block' ? 'gamePlay' : 'gameMenu';
+            const container = document.getElementById(activeArea);
+            
+            const oldError = container.querySelector('.error-msg');
+            if (oldError) oldError.remove();
+            
+            container.appendChild(errorDiv);
+            setTimeout(() => errorDiv.remove(), 3000);
+        }
+
+        // ===== ИГРОВЫЕ ФУНКЦИИ =====
+
         async function playSlots() {
             await preGameSync();
             
@@ -1036,7 +1108,6 @@
                 if (result.success) {
                     userBalance = result.new_balance;
                     
-                    // Обновляем все отображения баланса
                     document.querySelectorAll('.balance-num, .play-balance').forEach(el => {
                         if (el) el.textContent = userBalance;
                     });
@@ -1051,37 +1122,13 @@
                     resultDiv.className = `game-result ${result.win ? 'win-result' : 'lose-result'}`;
                     resultDiv.textContent = result.win ? `🎉 +${result.win_amount} ⭐️` : '❌ Проигрыш';
 
-                    // Обновляем статистику
-                    gameStats.slots.played++;
-                    if (result.win) {
-                        gameStats.slots.won++;
-                        gameStats.slots.totalWon += result.win_amount;
-                        
-                        gameHistory.slots.unshift({
-                            result: 'win',
-                            amount: result.win_amount
-                        });
-                    } else {
-                        gameHistory.slots.unshift({
-                            result: 'lose',
-                            amount: bet
-                        });
-                    }
-                    
-                    if (gameHistory.slots.length > 5) {
-                        gameHistory.slots.pop();
-                    }
-                    
-                    // Принудительная синхронизация после игры
                     await syncBalance();
                 } else {
                     showError(result.message || 'Ошибка игры');
-                    await syncBalance();
                 }
             } catch (error) {
                 console.error('Game error:', error);
                 showError('Ошибка соединения');
-                await syncBalance();
             }
         }
 
@@ -1135,35 +1182,13 @@
                     resultDiv.className = `game-result ${result.win ? 'win-result' : 'lose-result'}`;
                     resultDiv.textContent = result.win ? `🎉 +${result.win_amount} ⭐️` : '❌ Проигрыш';
 
-                    gameStats.dice.played++;
-                    if (result.win) {
-                        gameStats.dice.won++;
-                        gameStats.dice.totalWon += result.win_amount;
-                        
-                        gameHistory.dice.unshift({
-                            result: 'win',
-                            amount: result.win_amount
-                        });
-                    } else {
-                        gameHistory.dice.unshift({
-                            result: 'lose',
-                            amount: bet
-                        });
-                    }
-                    
-                    if (gameHistory.dice.length > 5) {
-                        gameHistory.dice.pop();
-                    }
-                    
                     await syncBalance();
                 } else {
                     showError(result.message || 'Ошибка игры');
-                    await syncBalance();
                 }
             } catch (error) {
                 console.error('Game error:', error);
                 showError('Ошибка соединения');
-                await syncBalance();
             }
         }
 
@@ -1218,35 +1243,13 @@
                     resultDiv.className = `game-result ${result.win ? 'win-result' : 'lose-result'}`;
                     resultDiv.textContent = result.win ? `🎉 +${result.win_amount} ⭐️` : '❌ Проигрыш';
 
-                    gameStats.coin.played++;
-                    if (result.win) {
-                        gameStats.coin.won++;
-                        gameStats.coin.totalWon += result.win_amount;
-                        
-                        gameHistory.coin.unshift({
-                            result: 'win',
-                            amount: result.win_amount
-                        });
-                    } else {
-                        gameHistory.coin.unshift({
-                            result: 'lose',
-                            amount: bet
-                        });
-                    }
-                    
-                    if (gameHistory.coin.length > 5) {
-                        gameHistory.coin.pop();
-                    }
-                    
                     await syncBalance();
                 } else {
                     showError(result.message || 'Ошибка игры');
-                    await syncBalance();
                 }
             } catch (error) {
                 console.error('Game error:', error);
                 showError('Ошибка соединения');
-                await syncBalance();
             }
         }
 
@@ -1287,28 +1290,13 @@
                     resultDiv.className = 'game-result win-result';
                     resultDiv.textContent = `🎉 +${result.prize} ⭐️`;
 
-                    gameStats.cases.played++;
-                    gameStats.cases.won++;
-                    gameStats.cases.totalWon += result.prize;
-                    
-                    gameHistory.cases.unshift({
-                        result: 'win',
-                        amount: result.prize
-                    });
-                    
-                    if (gameHistory.cases.length > 5) {
-                        gameHistory.cases.pop();
-                    }
-                    
                     await syncBalance();
                 } else {
                     showError(result.message || 'Ошибка игры');
-                    await syncBalance();
                 }
             } catch (error) {
                 console.error('Game error:', error);
                 showError('Ошибка соединения');
-                await syncBalance();
             }
         }
 
@@ -1331,9 +1319,8 @@
         }
 
         // Инициализация
-        startBalanceSync(); // Запускаем синхронизацию при загрузке
+        startBalanceSync();
         
-        // Останавливаем синхронизацию при закрытии
         window.addEventListener('beforeunload', () => {
             stopBalanceSync();
         });
