@@ -14,13 +14,13 @@
         }
 
         body {
-            background: #0A0F1E;
+            background: #0F172A;
             min-height: 100vh;
             padding: 16px;
             position: relative;
         }
 
-        /* Фоновые изображения */
+        /* Фоновые утки (только статичные) */
         .bg-duck {
             position: fixed;
             pointer-events: none;
@@ -28,75 +28,45 @@
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            opacity: 0.08;
-            filter: grayscale(20%);
+            opacity: 0.06;
         }
 
-        /* Первая утка из гифки (статичный кадр) */
         .bg-duck-1 {
             top: 5%;
             left: 2%;
+            width: 180px;
+            height: 180px;
+            background-image: url('https://avatars.mds.yandex.net/i?id=124bd57b260e8a4e4661daa0de7ad51486ff1663-9033858-images-thumbs&n=13');
+            transform: rotate(-8deg);
+        }
+
+        .bg-duck-2 {
+            bottom: 8%;
+            right: 3%;
             width: 200px;
             height: 200px;
-            background-image: url('https://media1.tenor.com/m/1e7b-JCHE2kAAAAC/cxyduck-cxydck.gif');
-            opacity: 0.12;
-            transform: rotate(-5deg);
+            background-image: url('https://i.postimg.cc/yW9QCMbb/izobrazenie-2026-02-14-182819036.png');
+            transform: rotate(12deg) scaleX(-1);
         }
 
-        /* Вторая утка из Яндекс картинки */
-        .bg-duck-2 {
-            bottom: 10%;
-            right: 3%;
-            width: 240px;
-            height: 240px;
-            background-image: url('https://avatars.mds.yandex.net/i?id=124bd57b260e8a4e4661daa0de7ad51486ff1663-9033858-images-thumbs&n=13');
-            opacity: 0.1;
-            transform: rotate(10deg) scaleX(-1);
-        }
-
-        /* Третья утка из вашей картинки */
         .bg-duck-3 {
             top: 40%;
             left: 5%;
-            width: 180px;
-            height: 180px;
-            background-image: url('https://i.postimg.cc/yW9QCMbb/izobrazenie-2026-02-14-182819036.png');
-            opacity: 0.1;
-            transform: rotate(8deg);
-        }
-
-        /* Дополнительные утки для фона */
-        .bg-duck-4 {
-            top: 70%;
-            right: 8%;
             width: 160px;
             height: 160px;
-            background-image: url('https://media1.tenor.com/m/1e7b-JCHE2kAAAAC/cxyduck-cxydck.gif');
-            opacity: 0.08;
-            transform: rotate(15deg) scaleX(-1);
+            background-image: url('https://avatars.mds.yandex.net/i?id=124bd57b260e8a4e4661daa0de7ad51486ff1663-9033858-images-thumbs&n=13');
+            transform: rotate(5deg);
         }
 
-        .bg-duck-5 {
-            top: 15%;
-            right: 15%;
-            width: 140px;
-            height: 140px;
-            background-image: url('https://avatars.mds.yandex.net/i?id=124bd57b260e8a4e4661daa0de7ad51486ff1663-9033858-images-thumbs&n=13');
-            opacity: 0.08;
+        .bg-duck-4 {
+            bottom: 20%;
+            left: 12%;
+            width: 150px;
+            height: 150px;
+            background-image: url('https://i.postimg.cc/yW9QCMbb/izobrazenie-2026-02-14-182819036.png');
             transform: rotate(-12deg);
         }
 
-        .bg-duck-6 {
-            bottom: 20%;
-            left: 12%;
-            width: 170px;
-            height: 170px;
-            background-image: url('https://i.postimg.cc/yW9QCMbb/izobrazenie-2026-02-14-182819036.png');
-            opacity: 0.08;
-            transform: rotate(-8deg) scaleX(-1);
-        }
-
-        /* Основной контейнер */
         .app {
             max-width: 500px;
             margin: 0 auto;
@@ -104,219 +74,90 @@
             z-index: 10;
         }
 
-        /* Верхняя панель */
+        /* Верхняя панель - желтая тема */
         .header {
-            background: rgba(18, 25, 40, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 30px;
+            background: #1E293B;
+            border-radius: 28px;
             padding: 16px 20px;
             margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid #FBBF24;
+            box-shadow: 0 8px 0 #0F172A, 0 8px 20px rgba(0,0,0,0.5);
         }
 
         .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
         }
 
-        .logo-block {
+        .logo-area {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .duck-logo {
+        .duck-icon {
             width: 44px;
             height: 44px;
+            background: #FBBF24;
             border-radius: 22px;
-            background: linear-gradient(145deg, #FFD166, #FFB347);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 26px;
-            box-shadow: 0 4px 0 #CC7B3A;
-            transform: rotate(-3deg);
-            animation: duckBob 2.5s infinite;
-        }
-
-        @keyframes duckBob {
-            0%, 100% { transform: rotate(-3deg) translateY(0); }
-            50% { transform: rotate(3deg) translateY(-4px); }
+            font-size: 24px;
+            box-shadow: 0 4px 0 #B45309;
         }
 
         .logo-text {
             font-size: 22px;
             font-weight: 700;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            color: #FBBF24;
+            text-shadow: 0 2px 0 #B45309;
             letter-spacing: 0.5px;
         }
 
         .balance-box {
-            background: linear-gradient(145deg, #1E2A47, #0F1A2F);
+            background: #0F172A;
             border-radius: 40px;
-            padding: 10px 18px;
-            border: 2px solid #FFD166;
+            padding: 8px 16px;
+            border: 2px solid #FBBF24;
             display: flex;
             align-items: center;
-            gap: 8px;
-            box-shadow: inset 0 -3px 0 #0A0F1E, 0 5px 0 #0A0F1E;
+            gap: 6px;
         }
 
         .star-icon {
-            font-size: 22px;
-            filter: drop-shadow(0 2px 2px gold);
+            font-size: 20px;
+            color: #FBBF24;
         }
 
         .balance-num {
-            font-size: 24px;
-            font-weight: 800;
-            color: #FFD700;
-            text-shadow: 0 2px 0 #8B4513;
+            font-size: 22px;
+            font-weight: 700;
+            color: #FBBF24;
         }
 
         .balance-label {
-            font-size: 13px;
-            color: #A0B0D0;
+            font-size: 12px;
+            color: #94A3B8;
         }
 
-        .stats-row {
-            display: flex;
-            justify-content: space-between;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 40px;
-            padding: 12px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .stat-item {
-            text-align: center;
-            flex: 1;
-        }
-
-        .stat-value {
+        /* Основное меню */
+        .menu-title {
             font-size: 18px;
-            font-weight: 700;
-            color: #FFD166;
-        }
-
-        .stat-label {
-            font-size: 11px;
-            color: #8899CC;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Секция приветствия */
-        .welcome-card {
-            background: linear-gradient(145deg, #1E2A47, #121A2A);
-            border-radius: 30px;
-            padding: 24px;
-            margin-bottom: 24px;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #FFD16633;
-            box-shadow: 0 10px 0 #0A0F1E;
-        }
-
-        .welcome-bg {
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            width: 150px;
-            height: 150px;
-            background-image: url('https://media1.tenor.com/m/1e7b-JCHE2kAAAAC/cxyduck-cxydck.gif');
-            background-size: contain;
-            background-repeat: no-repeat;
-            opacity: 0.15;
-            transform: rotate(10deg);
-            pointer-events: none;
-        }
-
-        .welcome-title {
-            font-size: 26px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 8px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .welcome-title span {
-            color: #FFD166;
-            text-shadow: 0 2px 0 #8B4513;
-        }
-
-        .welcome-text {
-            color: #A0B0D0;
-            font-size: 15px;
+            color: #FBBF24;
             margin-bottom: 16px;
-            max-width: 70%;
-            line-height: 1.5;
-        }
-
-        .welcome-stats {
             display: flex;
-            gap: 16px;
+            align-items: center;
+            gap: 8px;
         }
 
-        .welcome-stat {
-            background: rgba(255, 209, 102, 0.1);
-            padding: 8px 16px;
-            border-radius: 40px;
-            border: 1px solid #FFD16633;
+        .menu-title::before {
+            content: '🦆';
+            font-size: 22px;
         }
 
-        .welcome-stat span {
-            color: #FFD166;
-            font-weight: 600;
-            margin-right: 6px;
-        }
-
-        /* Категории */
-        .categories {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 24px;
-            overflow-x: auto;
-            padding: 4px 0;
-            scrollbar-width: none;
-        }
-
-        .categories::-webkit-scrollbar {
-            display: none;
-        }
-
-        .category-btn {
-            background: #1E2A47;
-            border: 1px solid #334155;
-            padding: 12px 28px;
-            border-radius: 40px;
-            color: #A0B0D0;
-            font-weight: 600;
-            font-size: 15px;
-            white-space: nowrap;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-
-        .category-btn.active {
-            background: #FFD166;
-            border-color: #FFB347;
-            color: #0A0F1E;
-            box-shadow: 0 4px 0 #8B4513;
-            transform: translateY(-2px);
-        }
-
-        .category-btn:hover {
-            background: #2A3A5A;
-        }
-
-        /* Сетка игр */
+        /* Сетка игр 2x2 */
         .games-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -324,193 +165,98 @@
             margin-bottom: 24px;
         }
 
-        .game-card {
-            background: #1A2335;
-            border-radius: 26px;
-            padding: 20px 16px;
+        /* Карточка игры в меню */
+        .game-menu-card {
+            background: #1E293B;
+            border-radius: 24px;
+            padding: 24px 16px;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
             border: 2px solid transparent;
-            transition: all 0.25s;
-            box-shadow: 0 8px 0 #0D1422, 0 8px 20px rgba(0,0,0,0.6);
-        }
-
-        .game-card:hover {
-            transform: translateY(-5px);
-            border-color: #FFD166;
-            box-shadow: 0 13px 0 #0D1422, 0 12px 25px rgba(0,0,0,0.7);
-        }
-
-        .game-card:active {
-            transform: translateY(3px);
-            box-shadow: 0 5px 0 #0D1422, 0 8px 15px rgba(0,0,0,0.6);
-        }
-
-        .game-tag {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: #FFD166;
-            color: #0A0F1E;
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 11px;
-            font-weight: 700;
-            z-index: 2;
-            box-shadow: 0 2px 0 #8B4513;
-        }
-
-        .game-tag.popular {
-            background: #FF6B6B;
-            color: white;
-        }
-
-        .game-emoji {
-            font-size: 52px;
+            transition: all 0.2s;
+            box-shadow: 0 6px 0 #0F172A;
             text-align: center;
-            margin-bottom: 12px;
-            filter: drop-shadow(0 6px 4px #00000066);
         }
 
-        .game-name {
+        .game-menu-card:hover {
+            border-color: #FBBF24;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 0 #0F172A;
+        }
+
+        .game-menu-card:active {
+            transform: translateY(2px);
+            box-shadow: 0 4px 0 #0F172A;
+        }
+
+        .menu-emoji {
+            font-size: 56px;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 4px 4px #00000066);
+        }
+
+        .menu-name {
             font-size: 20px;
             font-weight: 700;
-            color: white;
-            text-align: center;
-            margin-bottom: 6px;
+            color: #FBBF24;
+            margin-bottom: 4px;
         }
 
-        .game-meta {
+        .menu-desc {
+            font-size: 13px;
+            color: #94A3B8;
+        }
+
+        /* Статистика в меню */
+        .menu-stats {
             display: flex;
             justify-content: center;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .game-mult {
-            background: #2A3A5A;
-            padding: 4px 12px;
-            border-radius: 30px;
+            gap: 12px;
+            margin-top: 12px;
             font-size: 12px;
-            font-weight: 600;
-            color: #FFD166;
         }
 
-        .game-min {
-            background: #2A3A5A;
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 12px;
-            color: #88DD88;
+        .menu-stat {
+            background: #0F172A;
+            padding: 4px 10px;
+            border-radius: 20px;
+            color: #FBBF24;
         }
 
-        .game-players {
+        /* Популярная карточка */
+        .featured-card {
+            background: linear-gradient(145deg, #FBBF24, #F59E0B);
+            border-radius: 28px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 0 #B45309;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 6px;
-            font-size: 12px;
-            color: #8899CC;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        /* Популярная игра (большая карточка) */
-        .featured-card {
-            background: linear-gradient(145deg, #1E2A47, #121A2A);
-            border-radius: 30px;
-            padding: 24px;
-            margin-bottom: 24px;
-            border: 2px solid #FFD166;
-            box-shadow: 0 12px 0 #0A0F1E;
-            position: relative;
-            overflow: hidden;
+        .featured-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 0 #B45309;
         }
 
-        .featured-bg-duck {
-            position: absolute;
-            bottom: -20px;
-            right: -20px;
-            width: 200px;
-            height: 200px;
-            background-image: url('https://avatars.mds.yandex.net/i?id=124bd57b260e8a4e4661daa0de7ad51486ff1663-9033858-images-thumbs&n=13');
-            background-size: contain;
-            background-repeat: no-repeat;
-            opacity: 0.15;
-            transform: rotate(-8deg);
-            pointer-events: none;
-        }
-
-        .featured-label {
-            background: #FFD166;
-            color: #0A0F1E;
-            padding: 6px 18px;
-            border-radius: 40px;
-            display: inline-block;
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 0 #8B4513;
-        }
-
-        .featured-name {
-            font-size: 36px;
+        .featured-info h3 {
+            font-size: 22px;
             font-weight: 800;
-            color: #FFD166;
-            margin-bottom: 8px;
-            text-shadow: 0 4px 0 #8B4513;
-            line-height: 1.1;
+            color: #0F172A;
+            margin-bottom: 4px;
         }
 
-        .featured-desc {
-            font-size: 16px;
-            color: #A0B0D0;
-            margin-bottom: 20px;
-            max-width: 70%;
+        .featured-info p {
+            color: #1E293B;
+            font-size: 14px;
+            opacity: 0.9;
         }
 
-        .featured-buttons {
-            display: flex;
-            gap: 12px;
-        }
-
-        .play-btn {
-            background: #FFD166;
-            border: none;
-            padding: 16px 32px;
-            border-radius: 60px;
-            font-size: 18px;
-            font-weight: 700;
-            color: #0A0F1E;
-            cursor: pointer;
-            box-shadow: 0 6px 0 #8B4513;
-            transition: all 0.2s;
-            flex: 1;
-        }
-
-        .play-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 9px 0 #8B4513;
-        }
-
-        .play-btn:active {
-            transform: translateY(3px);
-            box-shadow: 0 3px 0 #8B4513;
-        }
-
-        .info-btn {
-            background: transparent;
-            border: 2px solid #FFD166;
-            padding: 14px 24px;
-            border-radius: 60px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #FFD166;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .info-btn:hover {
-            background: #FFD16622;
+        .featured-emoji {
+            font-size: 48px;
+            filter: drop-shadow(2px 4px 0 #B45309);
         }
 
         /* Модальное окно игры */
@@ -522,7 +268,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(8px);
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -530,81 +276,148 @@
         }
 
         .modal-content {
-            background: #1A2335;
-            border-radius: 40px;
-            padding: 28px;
+            background: #1E293B;
+            border-radius: 32px;
+            padding: 24px;
             width: 100%;
             max-width: 440px;
-            border: 2px solid #FFD166;
-            box-shadow: 0 20px 0 #0A0F1E, 0 20px 40px rgba(0,0,0,0.6);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .modal-duck {
-            position: absolute;
-            top: -30px;
-            right: -30px;
-            width: 150px;
-            height: 150px;
-            background-image: url('https://i.postimg.cc/yW9QCMbb/izobrazenie-2026-02-14-182819036.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            opacity: 0.1;
-            transform: rotate(15deg);
-            pointer-events: none;
+            border: 3px solid #FBBF24;
+            box-shadow: 0 15px 0 #0F172A, 0 20px 30px rgba(0,0,0,0.6);
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             padding-bottom: 16px;
-            border-bottom: 2px solid #334155;
+            border-bottom: 2px solid #FBBF24;
         }
 
         .modal-title {
-            font-size: 28px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 26px;
             font-weight: 700;
-            color: #FFD166;
-            text-shadow: 0 2px 0 #8B4513;
+            color: #FBBF24;
         }
 
         .modal-balance {
-            background: #0D1422;
-            padding: 10px 18px;
+            background: #0F172A;
+            padding: 8px 16px;
             border-radius: 40px;
-            border: 1px solid #FFD166;
-            color: #FFD700;
+            border: 1px solid #FBBF24;
+            color: #FBBF24;
             font-weight: 600;
             font-size: 18px;
         }
 
+        /* Статистика игры */
+        .game-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .game-stat-card {
+            background: #0F172A;
+            border-radius: 20px;
+            padding: 14px 8px;
+            text-align: center;
+            border: 1px solid #FBBF24;
+        }
+
+        .game-stat-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #FBBF24;
+            line-height: 1.2;
+        }
+
+        .game-stat-label {
+            font-size: 11px;
+            color: #94A3B8;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        /* История игр */
+        .game-history {
+            background: #0F172A;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #FBBF24;
+        }
+
+        .history-title {
+            font-size: 15px;
+            color: #FBBF24;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: #1E293B;
+            border-radius: 16px;
+            font-size: 13px;
+        }
+
+        .history-win {
+            color: #FBBF24;
+            font-weight: 600;
+        }
+
+        .history-lose {
+            color: #94A3B8;
+        }
+
+        .history-amount {
+            background: #0F172A;
+            padding: 4px 10px;
+            border-radius: 20px;
+            color: #FBBF24;
+        }
+
+        /* Игровое поле */
         .game-panel {
-            background: #0D1422;
-            border-radius: 30px;
+            background: #0F172A;
+            border-radius: 28px;
             padding: 24px;
             margin-bottom: 20px;
-            border: 1px solid #334155;
+            border: 2px solid #FBBF24;
         }
 
         /* Слоты */
         .slots-display {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 20px 0;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .slot-cell {
-            background: #2A3A5A;
+            background: #1E293B;
             border-radius: 24px;
             padding: 24px 8px;
             font-size: 48px;
             text-align: center;
-            border: 3px solid #FFD166;
-            box-shadow: inset 0 -5px 0 #8B4513;
+            border: 2px solid #FBBF24;
+            box-shadow: inset 0 -4px 0 #B45309;
         }
 
         /* Кости */
@@ -617,14 +430,14 @@
         .dice-box {
             width: 120px;
             height: 120px;
-            background: #2A3A5A;
+            background: #1E293B;
             border-radius: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 64px;
-            border: 4px solid #FFD166;
-            box-shadow: 0 8px 0 #8B4513;
+            border: 3px solid #FBBF24;
+            box-shadow: 0 8px 0 #B45309;
         }
 
         /* Кнопки выбора */
@@ -637,22 +450,22 @@
 
         .choice-btn {
             aspect-ratio: 1;
-            background: #2A3A5A;
-            border: 3px solid #FFD166;
-            border-radius: 30px;
-            font-size: 28px;
+            background: #1E293B;
+            border: 2px solid #FBBF24;
+            border-radius: 20px;
+            font-size: 24px;
             font-weight: 700;
-            color: white;
+            color: #FBBF24;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 5px 0 #8B4513;
+            box-shadow: 0 4px 0 #B45309;
         }
 
         .choice-btn.selected {
-            background: #FFD166;
-            color: #0A0F1E;
+            background: #FBBF24;
+            color: #0F172A;
             transform: translateY(2px);
-            box-shadow: 0 3px 0 #8B4513;
+            box-shadow: 0 2px 0 #B45309;
         }
 
         /* Кейсы */
@@ -665,17 +478,17 @@
 
         .case-item {
             aspect-ratio: 1;
-            background: linear-gradient(145deg, #FFD166, #FFB347);
-            border-radius: 30px;
+            background: #FBBF24;
+            border-radius: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 36px;
+            font-size: 32px;
             cursor: pointer;
             transition: all 0.3s;
-            border: 3px solid white;
-            box-shadow: 0 8px 0 #8B4513;
-            color: #0A0F1E;
+            border: 3px solid #F59E0B;
+            box-shadow: 0 6px 0 #B45309;
+            color: #0F172A;
             font-weight: bold;
         }
 
@@ -684,29 +497,29 @@
         }
 
         .case-item.opened {
-            background: #4A5A7A;
-            border-color: #8899CC;
-            box-shadow: 0 5px 0 #2A3A5A;
+            background: #475569;
+            border-color: #64748B;
+            box-shadow: 0 4px 0 #334155;
         }
 
-        /* Поле ввода ставки */
+        /* Поле ставки */
         .bet-field {
             width: 100%;
-            padding: 18px;
-            background: #2A3A5A;
-            border: 3px solid #FFD166;
-            border-radius: 60px;
+            padding: 16px;
+            background: #1E293B;
+            border: 2px solid #FBBF24;
+            border-radius: 40px;
             font-size: 20px;
             text-align: center;
             font-weight: 600;
-            color: white;
+            color: #FBBF24;
             margin: 15px 0;
         }
 
         .bet-field:focus {
             outline: none;
-            border-color: #FFB347;
-            box-shadow: 0 0 0 3px #FFD16666;
+            border-color: #F59E0B;
+            box-shadow: 0 0 0 3px #FBBF2433;
         }
 
         /* Кнопки действий */
@@ -720,268 +533,151 @@
             flex: 1;
             padding: 18px;
             border: none;
-            border-radius: 60px;
+            border-radius: 40px;
             font-size: 18px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .action-btn.primary {
-            background: #FFD166;
-            color: #0A0F1E;
-            box-shadow: 0 6px 0 #8B4513;
+            background: #FBBF24;
+            color: #0F172A;
+            box-shadow: 0 6px 0 #B45309;
         }
 
         .action-btn.primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 9px 0 #8B4513;
+            box-shadow: 0 9px 0 #B45309;
         }
 
         .action-btn.primary:active {
             transform: translateY(3px);
-            box-shadow: 0 3px 0 #8B4513;
+            box-shadow: 0 3px 0 #B45309;
         }
 
         .action-btn.secondary {
-            background: #334155;
-            color: #A0B0D0;
-            box-shadow: 0 6px 0 #1E2A47;
+            background: #475569;
+            color: #FBBF24;
+            box-shadow: 0 6px 0 #1E293B;
         }
 
-        /* Результат игры */
+        /* Результат */
         .game-result {
             margin-top: 16px;
             padding: 16px;
-            border-radius: 60px;
+            border-radius: 40px;
             font-size: 18px;
             font-weight: 600;
             text-align: center;
-            animation: resultPop 0.3s;
-        }
-
-        @keyframes resultPop {
-            0% { transform: scale(0.9); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
         }
 
         .win-result {
-            background: rgba(76, 175, 80, 0.2);
-            color: #88DD88;
-            border: 2px solid #4CAF50;
+            background: #FBBF2433;
+            color: #FBBF24;
+            border: 2px solid #FBBF24;
         }
 
         .lose-result {
-            background: rgba(244, 67, 54, 0.2);
-            color: #FF8A80;
-            border: 2px solid #F44336;
+            background: #47556933;
+            color: #94A3B8;
+            border: 2px solid #64748B;
         }
 
-        /* Сообщение об ошибке */
+        /* Ошибка */
         .error-msg {
-            background: rgba(244, 67, 54, 0.2);
-            color: #FF8A80;
+            background: #7F1D1D33;
+            color: #FCA5A5;
             padding: 14px;
-            border-radius: 60px;
+            border-radius: 40px;
             margin: 10px 0;
-            border: 2px solid #F44336;
+            border: 2px solid #DC2626;
             text-align: center;
-            font-weight: 600;
-            animation: errorShake 0.4s;
-        }
-
-        @keyframes errorShake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-5px); }
-            40%, 80% { transform: translateX(5px); }
-        }
-
-        /* Нижняя панель */
-        .footer {
-            background: rgba(18, 25, 40, 0.85);
-            backdrop-filter: blur(20px);
-            border-radius: 40px;
-            padding: 16px 20px;
-            margin-top: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-link {
-            color: #8899CC;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            padding: 8px 16px;
-            border-radius: 40px;
-            transition: background 0.2s;
-        }
-
-        .footer-link:hover {
-            background: #1E2A47;
-            color: #FFD166;
-        }
-
-        .footer-link span {
-            font-size: 18px;
-        }
-
-        .footer-copyright {
-            color: #556688;
-            font-size: 12px;
         }
     </style>
 </head>
 <body>
-    <!-- Фоновые утки (6 штук из разных источников) -->
+    <!-- Фоновые утки (только статичные) -->
     <div class="bg-duck bg-duck-1"></div>
     <div class="bg-duck bg-duck-2"></div>
     <div class="bg-duck bg-duck-3"></div>
     <div class="bg-duck bg-duck-4"></div>
-    <div class="bg-duck bg-duck-5"></div>
-    <div class="bg-duck bg-duck-6"></div>
 
     <div class="app">
-        <!-- Верхний бар -->
+        <!-- Верхняя панель -->
         <div class="header">
             <div class="header-top">
-                <div class="logo-block">
-                    <div class="duck-logo">🦆</div>
+                <div class="logo-area">
+                    <div class="duck-icon">🦆</div>
                     <div class="logo-text">DUCK GAMES</div>
                 </div>
                 <div class="balance-box">
                     <span class="star-icon">⭐️</span>
                     <span class="balance-num" id="balanceDisplay">0</span>
-                    <span class="balance-label">stars</span>
-                </div>
-            </div>
-            <div class="stats-row">
-                <div class="stat-item">
-                    <div class="stat-value" id="gamesPlayed">0</div>
-                    <div class="stat-label">ИГР</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="gamesWon">0</div>
-                    <div class="stat-label">ПОБЕД</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="totalEarned">0</div>
-                    <div class="stat-label">ВЫИГРАНО</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="winRate">0%</div>
-                    <div class="stat-label">ВИНРЕЙТ</div>
+                    <span class="balance-label">STARS</span>
                 </div>
             </div>
         </div>
 
-        <!-- Приветственная карточка с уткой -->
-        <div class="welcome-card">
-            <div class="welcome-bg"></div>
-            <div class="welcome-title">Привет, <span>Duck!</span></div>
-            <div class="welcome-text">Играй в мини-игры и зарабатывай звёзды. Утки ждут!</div>
-            <div class="welcome-stats">
-                <div class="welcome-stat"><span>🎰</span> 4 игры</div>
-                <div class="welcome-stat"><span>⭐️</span> x10 множитель</div>
+        <!-- Популярная карточка (быстрый вход) -->
+        <div class="featured-card" onclick="openGame('slots')">
+            <div class="featured-info">
+                <h3>🎰 Duck Slots</h3>
+                <p>Самые популярные слоты</p>
             </div>
+            <div class="featured-emoji">🦆</div>
         </div>
 
-        <!-- Категории игр -->
-        <div class="categories">
-            <div class="category-btn active">Все игры</div>
-            <div class="category-btn">На удачу</div>
-            <div class="category-btn">Стратегия</div>
-            <div class="category-btn">Быстрые</div>
-            <div class="category-btn">Популярные</div>
+        <!-- Заголовок меню -->
+        <div class="menu-title">
+            Выбери игру
         </div>
 
-        <!-- Популярная игра (большая карточка) -->
-        <div class="featured-card">
-            <div class="featured-bg-duck"></div>
-            <div class="featured-label">🔥 ПОПУЛЯРНОЕ</div>
-            <div class="featured-name">Duck Slots</div>
-            <div class="featured-desc">Крути слоты и выигрывай до x10 множителя</div>
-            <div class="featured-buttons">
-                <button class="play-btn" onclick="openGame('slots')">ИГРАТЬ</button>
-                <button class="info-btn">❓</button>
-            </div>
-        </div>
-
-        <!-- Сетка игр -->
+        <!-- Сетка игр 2x2 -->
         <div class="games-grid">
-            <div class="game-card" onclick="openGame('slots')">
-                <div class="game-tag popular">🔥</div>
-                <div class="game-emoji">🎰</div>
-                <div class="game-name">Слоты</div>
-                <div class="game-meta">
-                    <span class="game-mult">x10</span>
-                    <span class="game-min">от 5⭐️</span>
-                </div>
-                <div class="game-players">
-                    <span>👥 234</span>
-                    <span>⚡️ 1.2k</span>
+            <!-- Слоты -->
+            <div class="game-menu-card" onclick="openGame('slots')">
+                <div class="menu-emoji">🎰</div>
+                <div class="menu-name">Слоты</div>
+                <div class="menu-desc">x2 - x10 множитель</div>
+                <div class="menu-stats">
+                    <span class="menu-stat">⚡️ 1.2k</span>
+                    <span class="menu-stat">👥 234</span>
                 </div>
             </div>
 
-            <div class="game-card" onclick="openGame('dice')">
-                <div class="game-tag">🎲</div>
-                <div class="game-emoji">🎲</div>
-                <div class="game-name">Кости</div>
-                <div class="game-meta">
-                    <span class="game-mult">x6</span>
-                    <span class="game-min">от 1⭐️</span>
-                </div>
-                <div class="game-players">
-                    <span>👥 156</span>
-                    <span>⚡️ 892</span>
+            <!-- Кости -->
+            <div class="game-menu-card" onclick="openGame('dice')">
+                <div class="menu-emoji">🎲</div>
+                <div class="menu-name">Кости</div>
+                <div class="menu-desc">Угадай число x6</div>
+                <div class="menu-stats">
+                    <span class="menu-stat">⚡️ 892</span>
+                    <span class="menu-stat">👥 156</span>
                 </div>
             </div>
 
-            <div class="game-card" onclick="openGame('coin')">
-                <div class="game-tag">🪙</div>
-                <div class="game-emoji">🪙</div>
-                <div class="game-name">Орёл/Решка</div>
-                <div class="game-meta">
-                    <span class="game-mult">x2</span>
-                    <span class="game-min">от 1⭐️</span>
-                </div>
-                <div class="game-players">
-                    <span>👥 321</span>
-                    <span>⚡️ 1.5k</span>
+            <!-- Орёл/Решка -->
+            <div class="game-menu-card" onclick="openGame('coin')">
+                <div class="menu-emoji">🪙</div>
+                <div class="menu-name">Орёл/Решка</div>
+                <div class="menu-desc">x2 выигрыш</div>
+                <div class="menu-stats">
+                    <span class="menu-stat">⚡️ 1.5k</span>
+                    <span class="menu-stat">👥 321</span>
                 </div>
             </div>
 
-            <div class="game-card" onclick="openGame('cases')">
-                <div class="game-tag new">🆕</div>
-                <div class="game-emoji">🎁</div>
-                <div class="game-name">Кейсы</div>
-                <div class="game-meta">
-                    <span class="game-mult">5-100⭐️</span>
-                    <span class="game-min">10⭐️</span>
+            <!-- Кейсы -->
+            <div class="game-menu-card" onclick="openGame('cases')">
+                <div class="menu-emoji">🎁</div>
+                <div class="menu-name">Кейсы</div>
+                <div class="menu-desc">5-100⭐️ приз</div>
+                <div class="menu-stats">
+                    <span class="menu-stat">⚡️ 567</span>
+                    <span class="menu-stat">👥 98</span>
                 </div>
-                <div class="game-players">
-                    <span>👥 98</span>
-                    <span>⚡️ 567</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Нижняя панель -->
-        <div class="footer">
-            <div class="footer-link">
-                <span>🦆</span> О проекте
-            </div>
-            <div class="footer-link">
-                <span>📊</span> Статистика
-            </div>
-            <div class="footer-copyright">
-                Duck Games © 2026
             </div>
         </div>
     </div>
@@ -989,18 +685,56 @@
     <!-- Модальное окно игры -->
     <div class="modal" id="gameModal">
         <div class="modal-content">
-            <div class="modal-duck"></div>
             <div class="modal-header">
-                <div class="modal-title" id="gameTitle">Слоты</div>
+                <div class="modal-title" id="gameTitle">
+                    <span>🎰</span> Слоты
+                </div>
                 <div class="modal-balance" id="modalBalance">0 ⭐️</div>
             </div>
             
+            <!-- Статистика игры -->
+            <div class="game-stats-grid" id="gameStats">
+                <div class="game-stat-card">
+                    <div class="game-stat-value" id="statPlayed">0</div>
+                    <div class="game-stat-label">ИГР</div>
+                </div>
+                <div class="game-stat-card">
+                    <div class="game-stat-value" id="statWon">0</div>
+                    <div class="game-stat-label">ПОБЕД</div>
+                </div>
+                <div class="game-stat-card">
+                    <div class="game-stat-value" id="statPercent">0%</div>
+                    <div class="game-stat-label">ВИНРЕЙТ</div>
+                </div>
+            </div>
+
+            <!-- История игр -->
+            <div class="game-history" id="gameHistory">
+                <div class="history-title">📋 Последние игры</div>
+                <div class="history-list" id="historyList">
+                    <div class="history-item">
+                        <span class="history-lose">❌ Проигрыш</span>
+                        <span class="history-amount">-5⭐️</span>
+                    </div>
+                    <div class="history-item">
+                        <span class="history-win">🎉 Выигрыш</span>
+                        <span class="history-amount">+30⭐️</span>
+                    </div>
+                    <div class="history-item">
+                        <span class="history-lose">❌ Проигрыш</span>
+                        <span class="history-amount">-10⭐️</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Игровое поле -->
             <div class="game-panel" id="gamePanel"></div>
             <div id="errorMessage" class="error-msg" style="display: none;"></div>
             
+            <!-- Кнопки действий -->
             <div class="action-buttons">
                 <button class="action-btn primary" id="playButton" onclick="playGame()">Играть</button>
-                <button class="action-btn secondary" onclick="closeGame()">Закрыть</button>
+                <button class="action-btn secondary" onclick="closeGame()">Назад</button>
             </div>
         </div>
     </div>
@@ -1011,10 +745,39 @@
         let currentGame = '';
         let selectedChoice = null;
         let userBalance = 0;
+
+        // Статистика для каждой игры
         let gameStats = {
-            played: 0,
-            won: 0,
-            totalWon: 0
+            slots: { played: 234, won: 98, totalWon: 1250 },
+            dice: { played: 156, won: 26, totalWon: 450 },
+            coin: { played: 321, won: 158, totalWon: 890 },
+            cases: { played: 98, won: 45, totalWon: 678 }
+        };
+
+        // История игр
+        let gameHistory = {
+            slots: [
+                { result: 'win', amount: 30 },
+                { result: 'lose', amount: 5 },
+                { result: 'lose', amount: 10 },
+                { result: 'win', amount: 50 }
+            ],
+            dice: [
+                { result: 'lose', amount: 2 },
+                { result: 'lose', amount: 5 },
+                { result: 'win', amount: 30 }
+            ],
+            coin: [
+                { result: 'win', amount: 10 },
+                { result: 'lose', amount: 5 },
+                { result: 'win', amount: 10 },
+                { result: 'lose', amount: 5 }
+            ],
+            cases: [
+                { result: 'win', amount: 25 },
+                { result: 'win', amount: 15 },
+                { result: 'lose', amount: 10 }
+            ]
         };
 
         tg.expand();
@@ -1045,13 +808,44 @@
             }
         }
 
-        // Обновить статистику
-        function updateStats() {
-            document.getElementById('gamesPlayed').textContent = gameStats.played;
-            document.getElementById('gamesWon').textContent = gameStats.won;
-            document.getElementById('totalEarned').textContent = gameStats.totalWon;
-            const rate = gameStats.played > 0 ? Math.round((gameStats.won / gameStats.played) * 100) : 0;
-            document.getElementById('winRate').textContent = rate + '%';
+        // Обновить статистику для текущей игры
+        function updateGameStats() {
+            if (!currentGame) return;
+            
+            const stats = gameStats[currentGame];
+            const played = stats.played;
+            const won = stats.won;
+            const percent = played > 0 ? Math.round((won / played) * 100) : 0;
+            
+            document.getElementById('statPlayed').textContent = played;
+            document.getElementById('statWon').textContent = won;
+            document.getElementById('statPercent').textContent = percent + '%';
+        }
+
+        // Обновить историю игр
+        function updateGameHistory() {
+            if (!currentGame) return;
+            
+            const history = gameHistory[currentGame] || [];
+            const historyList = document.getElementById('historyList');
+            
+            if (history.length === 0) {
+                historyList.innerHTML = '<div class="history-item">Нет игр</div>';
+                return;
+            }
+
+            let html = '';
+            history.slice(0, 5).forEach(item => {
+                const className = item.result === 'win' ? 'history-win' : 'history-lose';
+                const sign = item.result === 'win' ? '+' : '-';
+                html += `
+                    <div class="history-item">
+                        <span class="${className}">${item.result === 'win' ? '🎉 Выигрыш' : '❌ Проигрыш'}</span>
+                        <span class="history-amount">${sign}${Math.abs(item.amount)}⭐️</span>
+                    </div>
+                `;
+            });
+            historyList.innerHTML = html;
         }
 
         // Отправить действие
@@ -1079,78 +873,78 @@
             currentGame = game;
             document.getElementById('gameModal').style.display = 'flex';
             document.getElementById('errorMessage').style.display = 'none';
-            refreshBalance();
-
+            
+            // Обновляем заголовок
+            const titles = {
+                slots: { emoji: '🎰', name: 'Слоты' },
+                dice: { emoji: '🎲', name: 'Кости' },
+                coin: { emoji: '🪙', name: 'Орёл/Решка' },
+                cases: { emoji: '🎁', name: 'Кейсы' }
+            };
+            document.getElementById('gameTitle').innerHTML = 
+                `<span>${titles[game].emoji}</span> ${titles[game].name}`;
+            
+            // Обновляем статистику
+            updateGameStats();
+            updateGameHistory();
+            
+            // Создаем игровое поле
             const panel = document.getElementById('gamePanel');
             const playBtn = document.getElementById('playButton');
 
             const games = {
-                slots: {
-                    title: '🎰 Слоты',
-                    html: `
-                        <div class="slots-display" id="slotsDisplay">
-                            <div class="slot-cell">❓</div>
-                            <div class="slot-cell">❓</div>
-                            <div class="slot-cell">❓</div>
-                        </div>
-                        <input type="number" class="bet-field" id="betAmount" min="5" max="100" value="10" step="5">
-                        <div style="text-align: center; color: #A0B0D0; margin-top: 8px;">Ставка: 5-100 ⭐️</div>
-                        <div class="game-result" id="gameResult"></div>
-                    `
-                },
-                dice: {
-                    title: '🎲 Кости',
-                    html: `
-                        <div class="dice-display">
-                            <div class="dice-box" id="diceResult">🎲</div>
-                        </div>
-                        <div class="choice-grid">
-                            <button class="choice-btn" onclick="selectChoice(1)">1</button>
-                            <button class="choice-btn" onclick="selectChoice(2)">2</button>
-                            <button class="choice-btn" onclick="selectChoice(3)">3</button>
-                            <button class="choice-btn" onclick="selectChoice(4)">4</button>
-                            <button class="choice-btn" onclick="selectChoice(5)">5</button>
-                            <button class="choice-btn" onclick="selectChoice(6)">6</button>
-                        </div>
-                        <input type="number" class="bet-field" id="betAmount" min="1" max="50" value="5" step="1">
-                        <div style="text-align: center; color: #A0B0D0;">Ставка: 1-50 ⭐️</div>
-                        <div class="game-result" id="gameResult"></div>
-                    `
-                },
-                coin: {
-                    title: '🪙 Орёл/Решка',
-                    html: `
-                        <div class="dice-display">
-                            <div class="dice-box" id="coinResult">🪙</div>
-                        </div>
-                        <div class="choice-grid" style="grid-template-columns: repeat(2, 1fr);">
-                            <button class="choice-btn" onclick="selectChoice('orel')">🦅</button>
-                            <button class="choice-btn" onclick="selectChoice('reshka')">💰</button>
-                        </div>
-                        <input type="number" class="bet-field" id="betAmount" min="1" max="100" value="5" step="1">
-                        <div style="text-align: center; color: #A0B0D0;">Ставка: 1-100 ⭐️</div>
-                        <div class="game-result" id="gameResult"></div>
-                    `
-                },
-                cases: {
-                    title: '🎁 Кейсы',
-                    html: `
-                        <div class="cases-grid" id="casesGrid">
-                            <div class="case-item" onclick="openCase(1)">❓</div>
-                            <div class="case-item" onclick="openCase(2)">❓</div>
-                            <div class="case-item" onclick="openCase(3)">❓</div>
-                        </div>
-                        <div style="text-align: center; color: #FFD166; margin: 15px 0;">Цена: 10 ⭐️</div>
-                        <div class="game-result" id="gameResult"></div>
-                    `,
-                    hidePlay: true
-                }
+                slots: `
+                    <div class="slots-display" id="slotsDisplay">
+                        <div class="slot-cell">❓</div>
+                        <div class="slot-cell">❓</div>
+                        <div class="slot-cell">❓</div>
+                    </div>
+                    <input type="number" class="bet-field" id="betAmount" min="5" max="100" value="10" step="5">
+                    <div style="text-align: center; color: #94A3B8;">Ставка: 5-100 ⭐️</div>
+                    <div class="game-result" id="gameResult"></div>
+                `,
+                dice: `
+                    <div class="dice-display">
+                        <div class="dice-box" id="diceResult">🎲</div>
+                    </div>
+                    <div class="choice-grid">
+                        <button class="choice-btn" onclick="selectChoice(1)">1</button>
+                        <button class="choice-btn" onclick="selectChoice(2)">2</button>
+                        <button class="choice-btn" onclick="selectChoice(3)">3</button>
+                        <button class="choice-btn" onclick="selectChoice(4)">4</button>
+                        <button class="choice-btn" onclick="selectChoice(5)">5</button>
+                        <button class="choice-btn" onclick="selectChoice(6)">6</button>
+                    </div>
+                    <input type="number" class="bet-field" id="betAmount" min="1" max="50" value="5" step="1">
+                    <div style="text-align: center; color: #94A3B8;">Ставка: 1-50 ⭐️</div>
+                    <div class="game-result" id="gameResult"></div>
+                `,
+                coin: `
+                    <div class="dice-display">
+                        <div class="dice-box" id="coinResult">🪙</div>
+                    </div>
+                    <div class="choice-grid" style="grid-template-columns: repeat(2, 1fr);">
+                        <button class="choice-btn" onclick="selectChoice('orel')">🦅</button>
+                        <button class="choice-btn" onclick="selectChoice('reshka')">💰</button>
+                    </div>
+                    <input type="number" class="bet-field" id="betAmount" min="1" max="100" value="5" step="1">
+                    <div style="text-align: center; color: #94A3B8;">Ставка: 1-100 ⭐️</div>
+                    <div class="game-result" id="gameResult"></div>
+                `,
+                cases: `
+                    <div class="cases-grid" id="casesGrid">
+                        <div class="case-item" onclick="openCase(1)">❓</div>
+                        <div class="case-item" onclick="openCase(2)">❓</div>
+                        <div class="case-item" onclick="openCase(3)">❓</div>
+                    </div>
+                    <div style="text-align: center; color: #FBBF24; margin: 15px 0;">Цена: 10 ⭐️</div>
+                    <div class="game-result" id="gameResult"></div>
+                `
             };
 
-            const g = games[game];
-            document.getElementById('gameTitle').textContent = g.title;
-            panel.innerHTML = g.html;
-            playBtn.style.display = g.hidePlay ? 'none' : 'block';
+            panel.innerHTML = games[game];
+            playBtn.style.display = game === 'cases' ? 'none' : 'block';
+            refreshBalance();
         }
 
         // Выбрать вариант
@@ -1216,12 +1010,23 @@
                 resultDiv.className = `game-result ${result.win ? 'win-result' : 'lose-result'}`;
                 resultDiv.textContent = result.win ? `🎉 +${result.win_amount} ⭐️` : '❌ Проигрыш';
 
-                gameStats.played++;
+                // Обновляем статистику
+                gameStats[currentGame].played++;
                 if (result.win) {
-                    gameStats.won++;
-                    gameStats.totalWon += result.win_amount;
+                    gameStats[currentGame].won++;
+                    gameStats[currentGame].totalWon += result.win_amount;
                 }
-                updateStats();
+                updateGameStats();
+                
+                // Добавляем в историю
+                gameHistory[currentGame].unshift({
+                    result: result.win ? 'win' : 'lose',
+                    amount: result.win ? result.win_amount : bet
+                });
+                if (gameHistory[currentGame].length > 5) {
+                    gameHistory[currentGame].pop();
+                }
+                updateGameHistory();
             }
         }
 
@@ -1248,10 +1053,21 @@
                 resultDiv.className = 'game-result win-result';
                 resultDiv.textContent = `🎉 +${result.prize} ⭐️`;
 
-                gameStats.played++;
-                gameStats.won++;
-                gameStats.totalWon += result.prize;
-                updateStats();
+                // Обновляем статистику
+                gameStats.cases.played++;
+                gameStats.cases.won++;
+                gameStats.cases.totalWon += result.prize;
+                updateGameStats();
+                
+                // Добавляем в историю
+                gameHistory.cases.unshift({
+                    result: 'win',
+                    amount: result.prize
+                });
+                if (gameHistory.cases.length > 5) {
+                    gameHistory.cases.pop();
+                }
+                updateGameHistory();
             }
         }
 
@@ -1265,7 +1081,6 @@
         // Инициализация
         refreshBalance();
         setInterval(refreshBalance, 5000);
-        updateStats();
     </script>
 </body>
 </html>
