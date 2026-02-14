@@ -119,10 +119,20 @@
             transition: all 0.3s;
         }
 
-        .balance-box.sync {
+        .balance-box.syncing {
             border-color: #4CAF50;
             box-shadow: 0 0 20px #4CAF50;
             transform: scale(1.02);
+        }
+
+        .balance-box.flash {
+            animation: flash 0.3s ease;
+        }
+
+        @keyframes flash {
+            0% { transform: scale(1); background: rgba(255, 255, 255, 0.4); }
+            50% { transform: scale(1.1); background: rgba(76, 175, 80, 0.3); }
+            100% { transform: scale(1); background: rgba(255, 255, 255, 0.4); }
         }
 
         .star-icon {
@@ -369,6 +379,12 @@
             border: 1px solid #1E3A8A;
             color: #1E3A8A;
             font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .play-balance.syncing {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.2);
         }
 
         .slots-display {
@@ -388,6 +404,17 @@
             box-shadow: inset 0 -4px 0 #0F2A5A;
         }
 
+        .slot-cell.spin {
+            animation: spin 0.5s ease;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            75% { transform: rotate(-10deg); }
+            100% { transform: rotate(0deg); }
+        }
+
         .dice-display {
             display: flex;
             justify-content: center;
@@ -405,6 +432,15 @@
             font-size: 64px;
             border: 3px solid #1E3A8A;
             box-shadow: 0 8px 0 #0F2A5A;
+        }
+
+        .dice-box.roll {
+            animation: roll 0.5s ease;
+        }
+
+        @keyframes roll {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .choice-grid {
@@ -430,6 +466,13 @@
         .choice-btn.selected {
             background: #1E3A8A;
             color: white;
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #0F2A5A;
+        }
+
+        .choice-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
             transform: translateY(2px);
             box-shadow: 0 2px 0 #0F2A5A;
         }
@@ -464,6 +507,11 @@
             color: #1E3A8A;
         }
 
+        .case-item:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         .bet-field {
             width: 100%;
             padding: 16px;
@@ -475,6 +523,10 @@
             font-weight: 600;
             color: #1E3A8A;
             margin: 15px 0;
+        }
+
+        .bet-field:disabled {
+            opacity: 0.5;
         }
 
         .game-buttons {
@@ -500,7 +552,7 @@
             box-shadow: 0 6px 0 #0F2A5A;
         }
 
-        .game-btn.primary:hover {
+        .game-btn.primary:hover:not(:disabled) {
             transform: translateY(-3px);
             box-shadow: 0 9px 0 #0F2A5A;
         }
@@ -511,6 +563,13 @@
             box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
         }
 
+        .game-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: translateY(2px);
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+        }
+
         .game-result {
             margin-top: 16px;
             padding: 16px;
@@ -519,6 +578,11 @@
             font-weight: 600;
             text-align: center;
             animation: resultPop 0.3s;
+        }
+
+        @keyframes resultPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .win-result {
@@ -541,6 +605,12 @@
             margin: 10px 0;
             border: 2px solid #F44336;
             text-align: center;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .loading {
@@ -549,9 +619,26 @@
             color: #1E3A8A;
             font-size: 16px;
         }
+
+        .sync-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4CAF50;
+            margin-left: 8px;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
     </style>
 </head>
 <body>
+    <!-- Фоновые эмодзи -->
     <div class="bg-emoji star-1">⭐️</div>
     <div class="bg-emoji star-2">🌟</div>
     <div class="bg-emoji star-3">✨</div>
@@ -583,6 +670,7 @@
                     <span class="star-icon">⭐️</span>
                     <span class="balance-num" id="balanceDisplay">0</span>
                     <span class="balance-label">STARS</span>
+                    <span class="sync-indicator" id="syncIndicator" style="display: none;"></span>
                 </div>
             </div>
         </div>
@@ -650,35 +738,38 @@
         tg.ready();
         tg.expand();
         
-        const userId = tg.initDataUnsafe?.user?.id;
-        alert('1. User ID: ' + (userId || 'не получен'));
+        // ========== КОНФИГУРАЦИЯ ==========
+        // ✅ ВАШ РЕАЛЬНЫЙ URL Railway
+        const API_URL = 'https://star-bot-telegram-production.up.railway.app/api/game';
         
-        if (!userId) {
-            alert('2. Ошибка: нет User ID! Страница открыта не через Telegram?');
-        }
-
+        // ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==========
+        const userId = tg.initDataUnsafe?.user?.id;
         let currentGame = '';
         let selectedChoice = null;
         let userBalance = 0;
-        let syncInterval = null;
         let globalStats = {};
         let userStats = {};
-
-        // ВАЖНО: используем относительный путь!
-        const API_URL = '/api/game';
-        alert('3. URL API: ' + API_URL);
-
+        
+        // Синхронизация
+        let isSyncing = false;
+        let lastSyncTime = 0;
+        let syncTimer = null;
+        let pendingGameAction = false;
+        
+        console.log('🚀 DUCK GAMES загружен');
+        console.log('👤 User ID:', userId);
+        console.log('🔗 API URL:', API_URL);
+        
+        // ========== ОТПРАВКА ЗАПРОСОВ К API ==========
         async function sendToBot(action, data = {}) {
-            alert('4. Отправка запроса: ' + action);
+            console.log(`📤 Отправка: ${action}`, data);
             
             if (!userId) {
-                alert('5. Ошибка: нет User ID');
+                console.error('❌ Нет User ID');
                 return { success: false, message: 'Нет авторизации' };
             }
 
             try {
-                alert('6. URL для fetch: ' + API_URL);
-                
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
@@ -691,45 +782,107 @@
                     })
                 });
 
-                alert('7. Статус ответа: ' + response.status);
+                console.log(`📥 Статус: ${response.status}`);
                 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP ${response.status}`);
                 }
 
                 const result = await response.json();
-                alert('8. Ответ получен: ' + JSON.stringify(result).substring(0, 100));
+                console.log(`✅ Ответ:`, result);
                 return result;
             } catch (error) {
-                alert('9. Ошибка: ' + error.message);
                 console.error('❌ Ошибка:', error);
                 return { success: false, message: 'Ошибка соединения' };
             }
         }
-
-        async function getBalance() {
-            alert('10. Вызов getBalance');
+        
+        // ========== СИНХРОНИЗАЦИЯ БАЛАНСА ==========
+        async function syncBalance(force = false, showIndicator = true) {
+            const now = Date.now();
             
-            if (!userId) {
-                alert('11. Нет User ID');
-                return;
+            // Защита от слишком частых запросов (не чаще 1 раза в секунду)
+            if (!force && now - lastSyncTime < 1000) {
+                console.log('⏳ Синхронизация слишком часто, пропускаем');
+                return false;
             }
             
-            alert('12. Отправка get_balance');
-            const result = await sendToBot('get_balance');
-            alert('13. Результат get_balance: ' + JSON.stringify(result));
+            // Защита от параллельных запросов
+            if (isSyncing) {
+                console.log('⏳ Синхронизация уже выполняется');
+                return false;
+            }
             
-            if (result?.success) {
-                userBalance = result.balance;
-                document.getElementById('balanceDisplay').textContent = userBalance;
-                alert('14. Баланс обновлен: ' + userBalance);
-                if (result.global_stats) updateGlobalStats(result.global_stats);
-                if (result.user_stats) userStats = result.user_stats;
-            } else {
-                alert('15. Ошибка: ' + (result?.message || 'неизвестная ошибка'));
+            isSyncing = true;
+            lastSyncTime = now;
+            
+            // Показываем индикатор синхронизации
+            if (showIndicator) {
+                document.getElementById('syncIndicator').style.display = 'inline-block';
+                document.getElementById('balanceBox').classList.add('syncing');
+            }
+            
+            try {
+                const result = await sendToBot('get_balance');
+                
+                if (result?.success) {
+                    const oldBalance = userBalance;
+                    userBalance = result.balance;
+                    
+                    // Обновляем все отображения баланса
+                    updateAllBalances();
+                    
+                    // Если баланс изменился - показываем анимацию
+                    if (oldBalance !== userBalance) {
+                        flashBalance();
+                    }
+                    
+                    // Обновляем статистику
+                    if (result.global_stats) {
+                        updateGlobalStats(result.global_stats);
+                    }
+                    if (result.user_stats) {
+                        userStats = result.user_stats;
+                    }
+                    
+                    console.log(`✅ Баланс: ${userBalance} ⭐️`);
+                    return true;
+                }
+            } catch (error) {
+                console.error('❌ Ошибка синхронизации:', error);
+            } finally {
+                isSyncing = false;
+                
+                // Убираем индикатор
+                if (showIndicator) {
+                    setTimeout(() => {
+                        document.getElementById('syncIndicator').style.display = 'none';
+                        document.getElementById('balanceBox').classList.remove('syncing');
+                    }, 500);
+                }
+            }
+            
+            return false;
+        }
+        
+        // Обновление всех элементов с балансом
+        function updateAllBalances() {
+            document.getElementById('balanceDisplay').textContent = userBalance;
+            
+            const playBalance = document.getElementById('playBalance');
+            if (playBalance) {
+                playBalance.textContent = userBalance;
             }
         }
-
+        
+        // Анимация изменения баланса
+        function flashBalance() {
+            const balanceBox = document.getElementById('balanceBox');
+            balanceBox.classList.add('flash');
+            setTimeout(() => balanceBox.classList.remove('flash'), 300);
+        }
+        
+        // Обновление глобальной статистики
         function updateGlobalStats(stats) {
             globalStats = stats;
             let totalPlays = 0, totalWins = 0, totalBank = 0;
@@ -738,6 +891,7 @@
                 totalPlays += stats[game].total_plays || 0;
                 totalWins += stats[game].total_wins || 0;
                 totalBank += stats[game].total_won || 0;
+                
                 const elem = document.getElementById(`${game}Global`);
                 if (elem) elem.textContent = `⚡️ ${stats[game].total_plays || 0}`;
             }
@@ -748,7 +902,199 @@
             document.getElementById('globalWinRate').textContent = winRate + '%';
             document.getElementById('globalBank').textContent = totalBank;
         }
-
+        
+        // ========== ИГРОВЫЕ ДЕЙСТВИЯ ==========
+        async function playGame(action, data = {}) {
+            // Защита от повторных нажатий
+            if (pendingGameAction) {
+                showError('Подождите, игра уже запущена');
+                return null;
+            }
+            
+            pendingGameAction = true;
+            
+            // Блокируем кнопки
+            disableGameButtons(true);
+            
+            try {
+                const result = await sendToBot(action, data);
+                
+                if (result?.success) {
+                    // Мгновенно обновляем баланс
+                    if (result.new_balance !== undefined) {
+                        userBalance = result.new_balance;
+                        updateAllBalances();
+                        flashBalance();
+                    }
+                    
+                    // Планируем синхронизацию через 500мс для проверки
+                    setTimeout(() => syncBalance(true, false), 500);
+                }
+                
+                return result;
+            } finally {
+                pendingGameAction = false;
+                disableGameButtons(false);
+            }
+        }
+        
+        // Блокировка/разблокировка кнопок
+        function disableGameButtons(disable) {
+            const buttons = document.querySelectorAll('.game-btn.primary, .choice-btn, .case-item');
+            buttons.forEach(btn => {
+                if (disable) {
+                    btn.disabled = true;
+                } else {
+                    btn.disabled = false;
+                }
+            });
+            
+            const betField = document.getElementById('betAmount');
+            if (betField) betField.disabled = disable;
+        }
+        
+        // ========== ИГРЫ ==========
+        async function playSlots() {
+            const bet = parseInt(document.getElementById('betAmount').value);
+            
+            if (isNaN(bet) || bet < 5) {
+                return showError('Минимальная ставка 5 ⭐️');
+            }
+            
+            if (bet > userBalance) {
+                return showError('Недостаточно звёзд!');
+            }
+            
+            // Анимация
+            document.querySelectorAll('.slot-cell').forEach(cell => {
+                cell.classList.add('spin');
+            });
+            
+            const result = await playGame('slots', { bet });
+            
+            // Убираем анимацию
+            document.querySelectorAll('.slot-cell').forEach(cell => {
+                setTimeout(() => cell.classList.remove('spin'), 500);
+            });
+            
+            if (result?.success) {
+                if (result.slots) {
+                    document.querySelectorAll('.slot-cell').forEach((el, i) => {
+                        el.textContent = result.slots[i];
+                    });
+                }
+                
+                const resultDiv = document.getElementById('gameResult');
+                resultDiv.className = `game-result ${result.win ? 'win-result' : 'lose-result'}`;
+                resultDiv.textContent = result.win ? `🎉 +${result.win_amount} ⭐️` : '❌ Проигрыш';
+            }
+        }
+        
+        async function playDice() {
+            if (!selectedChoice) {
+                return showError('Выбери число!');
+            }
+            
+            const bet = parseInt(document.getElementById('betAmount').value);
+            
+            if (isNaN(bet) || bet < 1) {
+                return showError('Минимальная ставка 1 ⭐️');
+            }
+            
+            if (bet > userBalance) {
+                return showError('Недостаточно звёзд!');
+            }
+            
+            // Анимация
+            const diceBox = document.getElementById('diceResult');
+            diceBox.classList.add('roll');
+            
+            const result = await playGame('dice', { bet, choice: selectedChoice });
+            
+            setTimeout(() => diceBox.classList.remove('roll'), 500);
+            
+            if (result?.success) {
+                diceBox.textContent = result.dice_value;
+                
+                const resultDiv = document.getElementById('gameResult');
+                resultDiv.className = `game-result ${result.win ? 'win-result' : 'lose-result'}`;
+                resultDiv.textContent = result.win ? `🎉 +${result.win_amount} ⭐️` : '❌ Проигрыш';
+            }
+        }
+        
+        async function playCoin() {
+            if (!selectedChoice) {
+                return showError('Выбери сторону!');
+            }
+            
+            const bet = parseInt(document.getElementById('betAmount').value);
+            
+            if (isNaN(bet) || bet < 1) {
+                return showError('Минимальная ставка 1 ⭐️');
+            }
+            
+            if (bet > userBalance) {
+                return showError('Недостаточно звёзд!');
+            }
+            
+            // Анимация
+            const coinBox = document.getElementById('coinResult');
+            coinBox.classList.add('roll');
+            
+            const result = await playGame('coin', { bet, choice: selectedChoice });
+            
+            setTimeout(() => coinBox.classList.remove('roll'), 500);
+            
+            if (result?.success) {
+                coinBox.textContent = result.coin_value === 'orel' ? '🦅' : '💰';
+                
+                const resultDiv = document.getElementById('gameResult');
+                resultDiv.className = `game-result ${result.win ? 'win-result' : 'lose-result'}`;
+                resultDiv.textContent = result.win ? `🎉 +${result.win_amount} ⭐️` : '❌ Проигрыш';
+            }
+        }
+        
+        async function openCase(caseNum) {
+            if (userBalance < 10) {
+                return showError('Нужно 10 ⭐️');
+            }
+            
+            const caseElement = event.target;
+            
+            // Анимация
+            caseElement.style.transform = 'scale(0.9)';
+            
+            const result = await playGame('case', { case: caseNum });
+            
+            caseElement.style.transform = 'scale(1)';
+            
+            if (result?.success) {
+                caseElement.textContent = result.prize;
+                caseElement.classList.add('opened');
+                caseElement.onclick = null;
+                
+                const resultDiv = document.getElementById('gameResult');
+                resultDiv.className = 'game-result win-result';
+                resultDiv.textContent = `🎉 +${result.prize} ⭐️`;
+            }
+        }
+        
+        // ========== UI ФУНКЦИИ ==========
+        function showError(text) {
+            const gamePlay = document.getElementById('gamePlay');
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-msg';
+            errorDiv.textContent = text;
+            gamePlay.appendChild(errorDiv);
+            setTimeout(() => errorDiv.remove(), 3000);
+        }
+        
+        function selectChoice(choice) {
+            selectedChoice = choice;
+            document.querySelectorAll('.choice-btn').forEach(btn => btn.classList.remove('selected'));
+            event.target.classList.add('selected');
+        }
+        
         function showGameMenu(game) {
             currentGame = game;
             const titles = { slots: '🎰', dice: '🎲', coin: '🪙', cases: '🎁' };
@@ -777,11 +1123,14 @@
             document.getElementById('mainMenu').style.display = 'none';
             document.getElementById('gameMenu').style.display = 'block';
             document.getElementById('gamePlay').style.display = 'none';
-            getBalance();
+            
+            syncBalance(true);
         }
-
+        
         function startGame(game) {
             currentGame = game;
+            selectedChoice = null;
+            
             const templates = {
                 slots: `
                     <div class="play-header">
@@ -852,114 +1201,49 @@
                     </div>
                 `
             };
+            
             document.getElementById('gamePlay').innerHTML = templates[game];
             document.getElementById('gameMenu').style.display = 'none';
             document.getElementById('gamePlay').style.display = 'block';
-            selectedChoice = null;
-            getBalance();
+            
+            syncBalance(true);
         }
-
-        function selectChoice(choice) {
-            selectedChoice = choice;
-            document.querySelectorAll('.choice-btn').forEach(btn => btn.classList.remove('selected'));
-            event.target.classList.add('selected');
-        }
-
-        async function playSlots() {
-            const bet = parseInt(document.getElementById('betAmount').value);
-            if (bet > userBalance) return showError('Недостаточно звёзд!');
-            const result = await sendToBot('slots', { bet });
-            if (result?.success) {
-                userBalance = result.new_balance;
-                document.getElementById('balanceDisplay').textContent = userBalance;
-                document.getElementById('playBalance').textContent = userBalance;
-                if (result.slots) {
-                    document.querySelectorAll('.slot-cell').forEach((el, i) => {
-                        el.textContent = result.slots[i];
-                    });
-                }
-                const resultDiv = document.getElementById('gameResult');
-                resultDiv.className = `game-result ${result.win ? 'win-result' : 'lose-result'}`;
-                resultDiv.textContent = result.win ? `🎉 +${result.win_amount} ⭐️` : '❌ Проигрыш';
-                await getBalance();
-            }
-        }
-
-        async function playDice() {
-            if (!selectedChoice) return showError('Выбери число!');
-            const bet = parseInt(document.getElementById('betAmount').value);
-            if (bet > userBalance) return showError('Недостаточно звёзд!');
-            const result = await sendToBot('dice', { bet, choice: selectedChoice });
-            if (result?.success) {
-                userBalance = result.new_balance;
-                document.getElementById('balanceDisplay').textContent = userBalance;
-                document.getElementById('playBalance').textContent = userBalance;
-                document.getElementById('diceResult').textContent = result.dice_value;
-                const resultDiv = document.getElementById('gameResult');
-                resultDiv.className = `game-result ${result.win ? 'win-result' : 'lose-result'}`;
-                resultDiv.textContent = result.win ? `🎉 +${result.win_amount} ⭐️` : '❌ Проигрыш';
-                await getBalance();
-            }
-        }
-
-        async function playCoin() {
-            if (!selectedChoice) return showError('Выбери сторону!');
-            const bet = parseInt(document.getElementById('betAmount').value);
-            if (bet > userBalance) return showError('Недостаточно звёзд!');
-            const result = await sendToBot('coin', { bet, choice: selectedChoice });
-            if (result?.success) {
-                userBalance = result.new_balance;
-                document.getElementById('balanceDisplay').textContent = userBalance;
-                document.getElementById('playBalance').textContent = userBalance;
-                document.getElementById('coinResult').textContent = result.coin_value === 'orel' ? '🦅' : '💰';
-                const resultDiv = document.getElementById('gameResult');
-                resultDiv.className = `game-result ${result.win ? 'win-result' : 'lose-result'}`;
-                resultDiv.textContent = result.win ? `🎉 +${result.win_amount} ⭐️` : '❌ Проигрыш';
-                await getBalance();
-            }
-        }
-
-        async function openCase(caseNum) {
-            if (userBalance < 10) return showError('Нужно 10 ⭐️');
-            const result = await sendToBot('case', { case: caseNum });
-            if (result?.success) {
-                userBalance = result.new_balance;
-                document.getElementById('balanceDisplay').textContent = userBalance;
-                document.getElementById('playBalance').textContent = userBalance;
-                event.target.textContent = result.prize;
-                event.target.classList.add('opened');
-                event.target.onclick = null;
-                document.getElementById('gameResult').className = 'game-result win-result';
-                document.getElementById('gameResult').textContent = `🎉 +${result.prize} ⭐️`;
-                await getBalance();
-            }
-        }
-
-        function showError(text) {
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error-msg';
-            errorDiv.textContent = text;
-            document.getElementById('gamePlay').appendChild(errorDiv);
-            setTimeout(() => errorDiv.remove(), 3000);
-        }
-
+        
         function backToMainMenu() {
             document.getElementById('mainMenu').style.display = 'block';
             document.getElementById('gameMenu').style.display = 'none';
             document.getElementById('gamePlay').style.display = 'none';
+            syncBalance(true);
         }
-
-        function backToGameMenu() {
-            if (currentGame) showGameMenu(currentGame);
-            else backToMainMenu();
-        }
-
-        // Запускаем получение баланса
-        setTimeout(() => {
-            getBalance();
-        }, 1000);
         
-        setInterval(getBalance, 3000);
+        function backToGameMenu() {
+            if (currentGame) {
+                showGameMenu(currentGame);
+            } else {
+                backToMainMenu();
+            }
+        }
+        
+        // ========== ИНИЦИАЛИЗАЦИЯ ==========
+        async function init() {
+            console.log('🔄 Инициализация...');
+            
+            if (!userId) {
+                alert('❌ Ошибка: нет User ID! Откройте приложение через Telegram.');
+                return;
+            }
+            
+            // Первая синхронизация
+            await syncBalance(true);
+            
+            // Запускаем автосинхронизацию каждые 10 секунд
+            setInterval(() => syncBalance(false, false), 10000);
+            
+            console.log('✅ Готово!');
+        }
+        
+        // Запускаем после загрузки страницы
+        setTimeout(init, 500);
     </script>
 </body>
 </html>
