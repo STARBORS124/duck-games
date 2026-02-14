@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Duck Games</title>
+    <title>🦆 Duck Games</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -14,74 +14,236 @@
         }
         
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%);
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Утки на фоне */
+        .duck-bg {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.15;
+            background-image: url('https://i.postimg.cc/1R7LwPcs/izobrazenie-2026-02-14-182819036.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 150px;
+            height: 150px;
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.2));
+        }
+        
+        .duck-1 {
+            top: 5%;
+            left: 2%;
+            width: 120px;
+            height: 120px;
+            transform: rotate(-10deg);
+        }
+        
+        .duck-2 {
+            bottom: 10%;
+            right: 3%;
+            width: 180px;
+            height: 180px;
+            transform: rotate(15deg) scaleX(-1);
+        }
+        
+        .duck-3 {
+            top: 40%;
+            right: 8%;
+            width: 100px;
+            height: 100px;
+            transform: rotate(25deg);
+        }
+        
+        .duck-4 {
+            bottom: 30%;
+            left: 5%;
+            width: 140px;
+            height: 140px;
+            transform: rotate(-5deg) scaleX(-1);
+        }
+        
+        .duck-5 {
+            top: 70%;
+            left: 15%;
+            width: 110px;
+            height: 110px;
+            transform: rotate(20deg);
+        }
+        
+        .duck-6 {
+            top: 15%;
+            right: 15%;
+            width: 90px;
+            height: 90px;
+            transform: rotate(-15deg);
         }
         
         .container {
             max-width: 600px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
         
         .header {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 20px;
+            background: rgba(255, 245, 235, 0.95);
+            border-radius: 40px 40px 40px 40px;
+            padding: 25px;
             margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 0 #C63E1F, 0 15px 30px rgba(0,0,0,0.3);
             text-align: center;
+            border: 3px solid #FFA07A;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            background-image: url('https://i.postimg.cc/1R7LwPcs/izobrazenie-2026-02-14-182819036.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 80px;
+            height: 80px;
+            opacity: 0.1;
+            bottom: -20px;
+            right: -20px;
+            transform: rotate(20deg);
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            background-image: url('https://i.postimg.cc/1R7LwPcs/izobrazenie-2026-02-14-182819036.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 60px;
+            height: 60px;
+            opacity: 0.1;
+            top: -20px;
+            left: -20px;
+            transform: rotate(-15deg) scaleX(-1);
+        }
+        
+        .header h2 {
+            font-size: 36px;
+            color: #C63E1F;
+            text-shadow: 3px 3px 0 #FFD700;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .duck-icon {
+            width: 70px;
+            height: 70px;
+            margin: 10px auto;
+            background-image: url('https://i.postimg.cc/1R7LwPcs/izobrazenie-2026-02-14-182819036.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
         
         .balance {
-            font-size: 28px;
+            font-size: 36px;
             font-weight: bold;
-            color: #667eea;
+            color: #2E7D32;
+            background: linear-gradient(135deg, #FFE4B5 0%, #FFDAB9 100%);
+            padding: 15px 30px;
+            border-radius: 60px;
+            display: inline-block;
             margin: 10px 0;
+            border: 4px solid #FF8C42;
+            box-shadow: 0 8px 0 #C63E1F;
         }
         
         .balance span {
             font-size: 16px;
-            color: #666;
+            color: #C63E1F;
             display: block;
+            margin-top: 5px;
         }
         
         .games-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 20px;
         }
         
         .game-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
+            background: rgba(255, 245, 235, 0.95);
+            border-radius: 30px;
+            padding: 25px 15px;
             text-align: center;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            box-shadow: 0 12px 0 #C63E1F, 0 10px 20px rgba(0,0,0,0.25);
+            border: 3px solid #FFA07A;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
         }
         
         .game-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 17px 0 #C63E1F, 0 15px 25px rgba(0,0,0,0.3);
+        }
+        
+        .game-card:active {
+            transform: translateY(5px);
+            box-shadow: 0 7px 0 #C63E1F, 0 10px 20px rgba(0,0,0,0.25);
+        }
+        
+        .game-card::before {
+            content: '';
+            position: absolute;
+            background-image: url('https://i.postimg.cc/1R7LwPcs/izobrazenie-2026-02-14-182819036.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 50px;
+            height: 50px;
+            opacity: 0.1;
+            bottom: -10px;
+            right: -10px;
+            transform: rotate(15deg);
         }
         
         .game-emoji {
-            font-size: 48px;
+            font-size: 64px;
             margin-bottom: 10px;
+            filter: drop-shadow(2px 4px 4px rgba(198, 62, 31, 0.3));
+            position: relative;
+            z-index: 1;
         }
         
         .game-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 5px;
+            font-size: 22px;
+            font-weight: 700;
+            color: #C63E1F;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
         }
         
         .game-desc {
-            font-size: 12px;
-            color: #666;
+            font-size: 14px;
+            color: #8B4513;
+            background: #FFE4B5;
+            padding: 6px 12px;
+            border-radius: 25px;
+            display: inline-block;
+            border: 2px solid #FF8C42;
         }
         
         .modal {
@@ -91,94 +253,176 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.7);
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            backdrop-filter: blur(8px);
         }
         
         .modal-content {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
+            background: linear-gradient(135deg, #FFF5E6 0%, #FFE4CA 100%);
+            border-radius: 50px;
+            padding: 30px;
             width: 90%;
             max-width: 400px;
             text-align: center;
+            border: 4px solid #FFA07A;
+            box-shadow: 0 25px 0 #C63E1F, 0 20px 30px rgba(0,0,0,0.4);
+            position: relative;
+        }
+        
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            background-image: url('https://i.postimg.cc/1R7LwPcs/izobrazenie-2026-02-14-182819036.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 60px;
+            height: 60px;
+            opacity: 0.1;
+            top: -10px;
+            left: -10px;
+            transform: rotate(-10deg);
+        }
+        
+        .modal-content::after {
+            content: '';
+            position: absolute;
+            background-image: url('https://i.postimg.cc/1R7LwPcs/izobrazenie-2026-02-14-182819036.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 60px;
+            height: 60px;
+            opacity: 0.1;
+            bottom: -10px;
+            right: -10px;
+            transform: rotate(20deg) scaleX(-1);
+        }
+        
+        .modal h2 {
+            color: #C63E1F;
+            font-size: 32px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0 #FFD700;
         }
         
         .game-area {
             margin: 20px 0;
             padding: 20px;
-            background: #f5f5f5;
-            border-radius: 10px;
+            background: #FFE4B5;
+            border-radius: 30px;
+            border: 3px solid #FF8C42;
         }
         
         .bet-input {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #667eea;
-            border-radius: 10px;
-            font-size: 16px;
+            padding: 15px;
+            border: 4px solid #FF8C42;
+            border-radius: 60px;
+            font-size: 20px;
             margin: 10px 0;
+            background: white;
+            text-align: center;
+            font-weight: bold;
+            color: #C63E1F;
+        }
+        
+        .bet-input:focus {
+            outline: none;
+            border-color: #C63E1F;
+            box-shadow: 0 0 0 4px rgba(198, 62, 31, 0.2);
         }
         
         .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%);
             color: white;
             border: none;
-            padding: 12px 30px;
-            border-radius: 10px;
-            font-size: 16px;
+            padding: 18px 35px;
+            border-radius: 60px;
+            font-size: 20px;
+            font-weight: bold;
             cursor: pointer;
             margin: 5px;
-            transition: opacity 0.3s;
+            transition: all 0.2s;
+            border-bottom: 6px solid #C63E1F;
+            box-shadow: 0 8px 20px rgba(198, 62, 31, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            background-image: url('https://i.postimg.cc/1R7LwPcs/izobrazenie-2026-02-14-182819036.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 30px;
+            height: 30px;
+            opacity: 0.2;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
         }
         
         .btn:hover {
-            opacity: 0.9;
+            transform: translateY(-3px);
+            border-bottom-width: 8px;
+        }
+        
+        .btn:active {
+            transform: translateY(3px);
+            border-bottom-width: 4px;
         }
         
         .btn-secondary {
-            background: #e0e0e0;
-            color: #333;
+            background: #E0E0E0;
+            color: #666;
+            border-bottom-color: #999;
         }
         
-        .btn:disabled {
+        .btn-secondary::after {
+            content: '✖';
+            background: none;
+            font-size: 20px;
             opacity: 0.5;
-            cursor: not-allowed;
         }
         
         .result {
             margin-top: 15px;
-            padding: 10px;
-            border-radius: 10px;
+            padding: 15px;
+            border-radius: 60px;
             font-weight: bold;
+            font-size: 18px;
         }
         
         .win {
-            background: #d4edda;
-            color: #155724;
+            background: linear-gradient(135deg, #C8E6C9 0%, #A5D6A7 100%);
+            color: #1B5E20;
+            border: 3px solid #2E7D32;
         }
         
         .lose {
-            background: #f8d7da;
-            color: #721c24;
+            background: linear-gradient(135deg, #FFCDD2 0%, #EF9A9A 100%);
+            color: #B71C1C;
+            border: 3px solid #C62828;
         }
         
         .slot-machine {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 5px;
+            gap: 10px;
             margin: 20px 0;
         }
         
         .slot-item {
             background: white;
-            border: 2px solid #667eea;
-            border-radius: 10px;
+            border: 4px solid #FF8C42;
+            border-radius: 25px;
             padding: 20px;
-            font-size: 36px;
+            font-size: 48px;
             text-align: center;
+            box-shadow: inset 0 -6px 0 #C63E1F;
         }
         
         .dice-area {
@@ -189,16 +433,17 @@
         }
         
         .dice {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             background: white;
-            border: 3px solid #667eea;
-            border-radius: 15px;
+            border: 4px solid #FF8C42;
+            border-radius: 25px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 40px;
+            font-size: 50px;
             font-weight: bold;
+            box-shadow: 0 10px 0 #C63E1F;
         }
         
         .choice-buttons {
@@ -206,38 +451,68 @@
             gap: 10px;
             justify-content: center;
             margin: 15px 0;
+            flex-wrap: wrap;
         }
         
         .choice-btn {
-            width: 60px;
-            height: 60px;
-            border: 2px solid #667eea;
-            border-radius: 10px;
+            width: 75px;
+            height: 75px;
+            border: 4px solid #FF8C42;
+            border-radius: 40px;
             background: white;
-            font-size: 24px;
+            font-size: 30px;
             cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 7px 0 #C63E1F;
+            color: #C63E1F;
+            font-weight: bold;
         }
         
         .choice-btn.selected {
-            background: #667eea;
+            background: #FF8C42;
             color: white;
+            transform: translateY(3px);
+            box-shadow: 0 4px 0 #C63E1F;
+        }
+        
+        .choice-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 0 #C63E1F;
         }
         
         .case-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            gap: 15px;
             margin: 20px 0;
         }
         
         .case {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%);
             color: white;
-            padding: 20px;
-            border-radius: 10px;
-            font-size: 24px;
+            padding: 35px 10px;
+            border-radius: 25px;
+            font-size: 36px;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            border-bottom: 8px solid #C63E1F;
+            position: relative;
+            overflow: hidden;
+            font-weight: bold;
+        }
+        
+        .case::before {
+            content: '';
+            position: absolute;
+            background-image: url('https://i.postimg.cc/1R7LwPcs/izobrazenie-2026-02-14-182819036.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 50px;
+            height: 50px;
+            opacity: 0.2;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
         
         .case:hover {
@@ -245,31 +520,51 @@
         }
         
         .case.opened {
-            background: #e0e0e0;
+            background: #E0E0E0;
             color: #333;
-            cursor: not-allowed;
+            border-bottom-color: #999;
         }
         
-        .back-btn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: #e0e0e0;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
+        .case.opened::before {
+            opacity: 0;
         }
         
         .stats {
-            font-size: 14px;
-            color: #666;
+            font-size: 15px;
+            color: #C63E1F;
             margin-top: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px 20px;
+            border-radius: 60px;
+            display: inline-block;
+            border: 2px solid #FF8C42;
+        }
+        
+        .error-message {
+            background: #FFEBEE;
+            color: #C62828;
+            padding: 12px;
+            border-radius: 60px;
+            margin: 10px 0;
+            font-size: 15px;
+            border: 3px solid #EF5350;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
+    <!-- Утки на фоне из вашей картинки -->
+    <div class="duck-bg duck-1"></div>
+    <div class="duck-bg duck-2"></div>
+    <div class="duck-bg duck-3"></div>
+    <div class="duck-bg duck-4"></div>
+    <div class="duck-bg duck-5"></div>
+    <div class="duck-bg duck-6"></div>
+
     <div class="container">
         <div class="header">
-            <h2>🎮 Duck Games</h2>
+            <div class="duck-icon"></div>
+            <h2>Duck Games</h2>
             <div class="balance" id="balance">0 ⭐️</div>
             <div class="stats" id="stats"></div>
         </div>
@@ -305,6 +600,7 @@
             <div class="balance" id="modalBalance">0 ⭐️</div>
             
             <div class="game-area" id="gameArea"></div>
+            <div id="errorContainer" class="error-message" style="display: none;"></div>
             
             <button class="btn" id="playBtn" onclick="playGame()">Играть</button>
             <button class="btn btn-secondary" onclick="closeGame()">Закрыть</button>
@@ -315,23 +611,42 @@
         let tg = window.Telegram.WebApp;
         let userId = tg.initDataUnsafe?.user?.id;
         let currentGame = '';
-        let betAmount = 10;
         let selectedChoice = null;
         let userBalance = 0;
+        let retryCount = 0;
         
         tg.expand();
         tg.MainButton.hide();
+        
+        // Функция для показа ошибки
+        function showError(message) {
+            const errorDiv = document.getElementById('errorContainer');
+            errorDiv.style.display = 'block';
+            errorDiv.textContent = message;
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 3000);
+        }
         
         // Получаем баланс пользователя
         async function updateBalance() {
             try {
                 const response = await fetch(`/api/balance?user_id=${userId}`);
                 const data = await response.json();
-                userBalance = data.balance;
-                document.getElementById('balance').innerHTML = `${userBalance} ⭐️`;
-                document.getElementById('modalBalance').innerHTML = `${userBalance} ⭐️`;
+                if (data.success) {
+                    userBalance = data.balance;
+                    document.getElementById('balance').innerHTML = `${userBalance} ⭐️`;
+                    document.getElementById('modalBalance').innerHTML = `${userBalance} ⭐️`;
+                    retryCount = 0;
+                } else {
+                    throw new Error(data.message || 'Ошибка получения баланса');
+                }
             } catch (error) {
                 console.error('Error updating balance:', error);
+                retryCount++;
+                if (retryCount < 3) {
+                    setTimeout(updateBalance, 2000);
+                }
             }
         }
         
@@ -349,9 +664,14 @@
                         ...data
                     })
                 });
-                return await response.json();
+                const result = await response.json();
+                if (!result.success) {
+                    showError(result.message || 'Ошибка игры');
+                }
+                return result;
             } catch (error) {
                 console.error('Error sending game action:', error);
+                showError('Ошибка соединения с сервером');
                 return { success: false, message: 'Ошибка соединения' };
             }
         }
@@ -359,6 +679,7 @@
         function openGame(game) {
             currentGame = game;
             document.getElementById('gameModal').style.display = 'flex';
+            document.getElementById('errorContainer').style.display = 'none';
             updateBalance();
             
             let gameArea = document.getElementById('gameArea');
@@ -447,12 +768,12 @@
             let bet = betInput ? parseInt(betInput.value) : 10;
             
             if (bet > userBalance) {
-                alert('Недостаточно средств!');
+                showError('Недостаточно средств!');
                 return;
             }
             
             if (bet < 1) {
-                alert('Минимальная ставка 1 ⭐️');
+                showError('Минимальная ставка 1 ⭐️');
                 return;
             }
             
@@ -460,7 +781,7 @@
             switch(currentGame) {
                 case 'slots':
                     if (bet < 5 || bet > 100) {
-                        alert('Ставка должна быть от 5 до 100 ⭐️');
+                        showError('Ставка должна быть от 5 до 100 ⭐️');
                         return;
                     }
                     result = await sendGameAction('slots', { bet });
@@ -468,11 +789,11 @@
                     
                 case 'dice':
                     if (!selectedChoice) {
-                        alert('Выберите число!');
+                        showError('Выберите число!');
                         return;
                     }
                     if (bet < 1 || bet > 50) {
-                        alert('Ставка должна быть от 1 до 50 ⭐️');
+                        showError('Ставка должна быть от 1 до 50 ⭐️');
                         return;
                     }
                     result = await sendGameAction('dice', { bet, choice: selectedChoice });
@@ -480,18 +801,18 @@
                     
                 case 'coin':
                     if (!selectedChoice) {
-                        alert('Выберите орёл или решка!');
+                        showError('Выберите орёл или решка!');
                         return;
                     }
                     if (bet < 1 || bet > 100) {
-                        alert('Ставка должна быть от 1 до 100 ⭐️');
+                        showError('Ставка должна быть от 1 до 100 ⭐️');
                         return;
                     }
                     result = await sendGameAction('coin', { bet, choice: selectedChoice });
                     break;
             }
             
-            if (result.success) {
+            if (result && result.success) {
                 userBalance = result.new_balance;
                 document.getElementById('balance').innerHTML = `${userBalance} ⭐️`;
                 document.getElementById('modalBalance').innerHTML = `${userBalance} ⭐️`;
@@ -503,30 +824,28 @@
                 gameResult.innerHTML = `<div class="result ${resultClass}">${winText}</div>`;
                 
                 // Обновляем отображение игры
-                if (currentGame === 'slots') {
+                if (currentGame === 'slots' && result.slots) {
                     let slots = document.querySelectorAll('.slot-item');
                     result.slots.forEach((slot, index) => {
                         slots[index].innerHTML = slot;
                     });
-                } else if (currentGame === 'dice') {
+                } else if (currentGame === 'dice' && result.dice_value) {
                     document.getElementById('diceResult').innerHTML = result.dice_value;
-                } else if (currentGame === 'coin') {
+                } else if (currentGame === 'coin' && result.coin_value) {
                     document.getElementById('coinResult').innerHTML = result.coin_value === 'orel' ? '🦅' : '💰';
                 }
-            } else {
-                alert(result.message || 'Ошибка игры');
             }
         }
         
         async function openCase(caseNum) {
             if (userBalance < 10) {
-                alert('Недостаточно средств!');
+                showError('Недостаточно средств!');
                 return;
             }
             
             let result = await sendGameAction('case', { case: caseNum });
             
-            if (result.success) {
+            if (result && result.success) {
                 userBalance = result.new_balance;
                 document.getElementById('balance').innerHTML = `${userBalance} ⭐️`;
                 document.getElementById('modalBalance').innerHTML = `${userBalance} ⭐️`;
@@ -547,10 +866,9 @@
             updateBalance();
         }
         
-        // Обновляем баланс каждые 5 секунд
-        setInterval(updateBalance, 5000);
+        // Обновляем баланс каждые 3 секунды
+        setInterval(updateBalance, 3000);
         updateBalance();
     </script>
 </body>
-
 </html>
