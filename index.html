@@ -651,7 +651,11 @@
         tg.expand();
         
         const userId = tg.initDataUnsafe?.user?.id;
-        console.log('User ID:', userId);
+        alert('1. User ID: ' + (userId || 'не получен'));
+        
+        if (!userId) {
+            alert('2. Ошибка: нет User ID! Страница открыта не через Telegram?');
+        }
 
         let currentGame = '';
         let selectedChoice = null;
@@ -660,16 +664,20 @@
         let globalStats = {};
         let userStats = {};
 
-        const API_URL = 'https://star-bot-telegram-production.up.railway.app/api/game';
+        // ВАЖНО: используем относительный путь!
+        const API_URL = '/api/game';
+        alert('3. URL API: ' + API_URL);
 
         async function sendToBot(action, data = {}) {
+            alert('4. Отправка запроса: ' + action);
+            
             if (!userId) {
-                console.error('Нет User ID');
+                alert('5. Ошибка: нет User ID');
                 return { success: false, message: 'Нет авторизации' };
             }
 
             try {
-                console.log(`📤 Отправка ${action}:`, data);
+                alert('6. URL для fetch: ' + API_URL);
                 
                 const response = await fetch(API_URL, {
                     method: 'POST',
@@ -683,27 +691,42 @@
                     })
                 });
 
+                alert('7. Статус ответа: ' + response.status);
+                
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
                 const result = await response.json();
-                console.log(`📥 Ответ ${action}:`, result);
+                alert('8. Ответ получен: ' + JSON.stringify(result).substring(0, 100));
                 return result;
             } catch (error) {
+                alert('9. Ошибка: ' + error.message);
                 console.error('❌ Ошибка:', error);
                 return { success: false, message: 'Ошибка соединения' };
             }
         }
 
         async function getBalance() {
-            if (!userId) return;
+            alert('10. Вызов getBalance');
+            
+            if (!userId) {
+                alert('11. Нет User ID');
+                return;
+            }
+            
+            alert('12. Отправка get_balance');
             const result = await sendToBot('get_balance');
+            alert('13. Результат get_balance: ' + JSON.stringify(result));
+            
             if (result?.success) {
                 userBalance = result.balance;
                 document.getElementById('balanceDisplay').textContent = userBalance;
+                alert('14. Баланс обновлен: ' + userBalance);
                 if (result.global_stats) updateGlobalStats(result.global_stats);
                 if (result.user_stats) userStats = result.user_stats;
+            } else {
+                alert('15. Ошибка: ' + (result?.message || 'неизвестная ошибка'));
             }
         }
 
@@ -931,7 +954,11 @@
             else backToMainMenu();
         }
 
-        getBalance();
+        // Запускаем получение баланса
+        setTimeout(() => {
+            getBalance();
+        }, 1000);
+        
         setInterval(getBalance, 3000);
     </script>
 </body>
