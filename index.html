@@ -6,6 +6,7 @@
     <title>🦆 DUCK GAMES</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        /* СТИЛИ (такие же как были) */
         * {
             margin: 0;
             padding: 0;
@@ -739,15 +740,19 @@
         tg.ready();
         tg.expand();
         
-        // Получаем данные пользователя
-        const initDataUnsafe = tg.initDataUnsafe || {};
-        const userId = initDataUnsafe?.user?.id || null;
-        const userName = initDataUnsafe?.user?.first_name || 'Игрок';
+        // ========== ПОЛУЧАЕМ USER ID ИЗ URL ==========
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlUserId = urlParams.get('user_id');
         
-        console.log('🚀 DUCK GAMES загружен');
+        // Пробуем получить из Telegram, если нет - берем из URL
+        const tgUserId = tg.initDataUnsafe?.user?.id;
+        const userId = tgUserId || urlUserId || null;
+        
+        console.log('🔍 ДИАГНОСТИКА:');
         console.log('📱 Telegram WebApp версия:', tg.version);
-        console.log('👤 User ID:', userId);
-        console.log('👤 Имя:', userName);
+        console.log('👤 User ID из Telegram:', tgUserId);
+        console.log('🔗 User ID из URL:', urlUserId);
+        console.log('✅ ИТОГОВЫЙ User ID:', userId);
         
         // ========== КОНФИГУРАЦИЯ ==========
         const API_URL = 'https://star-bot-telegram-production.up.railway.app/api/game';
@@ -768,101 +773,44 @@
         async function sendToBot(action, data = {}) {
             console.log(`📤 Отправка: ${action}`, data);
             
-            // Если нет user_id, используем тестовый режим
-            if (!userId) {
-                console.log('⚠️ Тестовый режим (нет User ID)');
-                return testMode(action, data);
-            }
-            
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        user_id: userId,
-                        action: action,
-                        ...data
-                    })
-                });
+            // Если есть реальный User ID - используем API
+            if (userId) {
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            user_id: parseInt(userId),
+                            action: action,
+                            ...data
+                        })
+                    });
 
-                console.log(`📥 Статус: ${response.status}`);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
+                    console.log(`📥 Статус: ${response.status}`);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    console.log(`✅ Ответ:`, result);
+                    return result;
+                } catch (error) {
+                    console.error('❌ Ошибка API:', error);
+                    // Если API не работает - показываем ошибку
+                    return { 
+                        success: false, 
+                        message: 'Ошибка соединения с сервером' 
+                    };
                 }
-
-                const result = await response.json();
-                console.log(`✅ Ответ:`, result);
-                return result;
-            } catch (error) {
-                console.error('❌ Ошибка:', error);
-                return { success: false, message: 'Ошибка соединения' };
+            } else {
+                // Нет User ID - показываем ошибку
+                console.error('❌ НЕТ USER ID!');
+                showError('Ошибка авторизации. Закройте и откройте игру заново.');
+                return { success: false, message: 'No user ID' };
             }
-        }
-        
-        // Тестовый режим (когда нет API)
-        function testMode(action, data) {
-            console.log('🧪 Тестовый режим:', action);
-            
-            if (action === 'get_balance') {
-                return {
-                    success: true,
-                    balance: 100,
-                    global_stats: {
-                        slots: { total_plays: 0 },
-                        dice: { total_plays: 0 },
-                        coin: { total_plays: 0 },
-                        cases: { total_plays: 0 }
-                    },
-                    user_stats: {}
-                };
-            }
-            
-            if (action === 'slots') {
-                const win = Math.random() > 0.5;
-                return {
-                    success: true,
-                    win: win,
-                    win_amount: win ? data.bet * 2 : 0,
-                    new_balance: win ? 100 + data.bet : 100 - data.bet,
-                    slots: ['🍒', '🍋', '🍊']
-                };
-            }
-            
-            if (action === 'dice') {
-                const win = Math.random() > 0.5;
-                return {
-                    success: true,
-                    win: win,
-                    win_amount: win ? data.bet * 6 : 0,
-                    new_balance: win ? 100 + data.bet : 100 - data.bet,
-                    dice_value: Math.floor(Math.random() * 6) + 1
-                };
-            }
-            
-            if (action === 'coin') {
-                const win = Math.random() > 0.5;
-                return {
-                    success: true,
-                    win: win,
-                    win_amount: win ? data.bet * 2 : 0,
-                    new_balance: win ? 100 + data.bet : 100 - data.bet,
-                    coin_value: win ? data.choice : (data.choice === 'orel' ? 'reshka' : 'orel')
-                };
-            }
-            
-            if (action === 'case') {
-                const prize = [5, 10, 15, 20, 25][Math.floor(Math.random() * 5)];
-                return {
-                    success: true,
-                    new_balance: 100 - 10 + prize,
-                    prize: prize
-                };
-            }
-            
-            return { success: false, message: 'Unknown action' };
         }
         
         // ========== СИНХРОНИЗАЦИЯ БАЛАНСА ==========
@@ -870,12 +818,10 @@
             const now = Date.now();
             
             if (!force && now - lastSyncTime < 1000) {
-                console.log('⏳ Синхронизация слишком часто, пропускаем');
                 return false;
             }
             
             if (isSyncing) {
-                console.log('⏳ Синхронизация уже выполняется');
                 return false;
             }
             
@@ -1272,6 +1218,21 @@
         // ========== ИНИЦИАЛИЗАЦИЯ ==========
         async function init() {
             console.log('🔄 Инициализация...');
+            
+            if (!userId) {
+                console.error('❌ НЕТ USER ID!');
+                // Показываем сообщение об ошибке
+                const errorDiv = document.createElement('div');
+                errorDiv.style.background = '#f44336';
+                errorDiv.style.color = 'white';
+                errorDiv.style.padding = '15px';
+                errorDiv.style.borderRadius = '10px';
+                errorDiv.style.margin = '10px 0';
+                errorDiv.style.textAlign = 'center';
+                errorDiv.innerHTML = '❌ Ошибка авторизации<br>Закройте и откройте игру заново';
+                document.querySelector('.app').prepend(errorDiv);
+                return;
+            }
             
             // Первая синхронизация
             await syncBalance(true);
