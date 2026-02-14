@@ -1,274 +1,519 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <title>🦆 Duck Games</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🦆 DUCK GAMES</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
-        
+
         body {
-            background: linear-gradient(145deg, #2B1B0E 0%, #4A2E1A 100%);
+            background: #0A0F1E;
             min-height: 100vh;
             padding: 16px;
             position: relative;
         }
-        
-        /* Утки без фона */
-        .duck-bg {
+
+        /* Фоновые изображения */
+        .bg-duck {
             position: fixed;
             pointer-events: none;
             z-index: 0;
-            width: 80px;
-            height: 80px;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            opacity: 0.25;
-            filter: drop-shadow(0 0 5px rgba(255, 140, 0, 0.3));
+            opacity: 0.08;
+            filter: grayscale(20%);
         }
-        
-        /* Разные утки в разных позициях */
-        .duck-1 {
+
+        /* Первая утка из гифки (статичный кадр) */
+        .bg-duck-1 {
             top: 5%;
             left: 2%;
-            width: 100px;
-            height: 100px;
-            background-image: url('https://i.postimg.cc/1R7LwPcs/izobrazenie-2026-02-14-182819036.png');
+            width: 200px;
+            height: 200px;
+            background-image: url('https://media1.tenor.com/m/1e7b-JCHE2kAAAAC/cxyduck-cxydck.gif');
+            opacity: 0.12;
             transform: rotate(-5deg);
-            opacity: 0.2;
         }
-        
-        .duck-2 {
-            bottom: 8%;
+
+        /* Вторая утка из Яндекс картинки */
+        .bg-duck-2 {
+            bottom: 10%;
             right: 3%;
-            width: 120px;
-            height: 120px;
-            background-image: url('https://cdn-icons-png.flaticon.com/512/616/616554.png');
+            width: 240px;
+            height: 240px;
+            background-image: url('https://avatars.mds.yandex.net/i?id=124bd57b260e8a4e4661daa0de7ad51486ff1663-9033858-images-thumbs&n=13');
+            opacity: 0.1;
             transform: rotate(10deg) scaleX(-1);
-            opacity: 0.2;
         }
-        
-        .duck-3 {
+
+        /* Третья утка из вашей картинки */
+        .bg-duck-3 {
             top: 40%;
-            right: 5%;
-            width: 90px;
-            height: 90px;
-            background-image: url('https://cdn-icons-png.flaticon.com/512/1998/1998611.png');
-            transform: rotate(15deg);
-            opacity: 0.2;
+            left: 5%;
+            width: 180px;
+            height: 180px;
+            background-image: url('https://i.postimg.cc/yW9QCMbb/izobrazenie-2026-02-14-182819036.png');
+            opacity: 0.1;
+            transform: rotate(8deg);
         }
-        
-        .duck-4 {
-            bottom: 20%;
-            left: 4%;
-            width: 110px;
-            height: 110px;
-            background-image: url('https://cdn-icons-png.flaticon.com/512/1046/1046771.png');
-            transform: rotate(-8deg) scaleX(-1);
-            opacity: 0.2;
+
+        /* Дополнительные утки для фона */
+        .bg-duck-4 {
+            top: 70%;
+            right: 8%;
+            width: 160px;
+            height: 160px;
+            background-image: url('https://media1.tenor.com/m/1e7b-JCHE2kAAAAC/cxyduck-cxydck.gif');
+            opacity: 0.08;
+            transform: rotate(15deg) scaleX(-1);
         }
-        
-        .duck-5 {
+
+        .bg-duck-5 {
             top: 15%;
-            right: 12%;
-            width: 70px;
-            height: 70px;
-            background-image: url('https://cdn-icons-png.flaticon.com/512/1890/1890015.png');
-            transform: rotate(20deg);
-            opacity: 0.15;
+            right: 15%;
+            width: 140px;
+            height: 140px;
+            background-image: url('https://avatars.mds.yandex.net/i?id=124bd57b260e8a4e4661daa0de7ad51486ff1663-9033858-images-thumbs&n=13');
+            opacity: 0.08;
+            transform: rotate(-12deg);
         }
-        
+
+        .bg-duck-6 {
+            bottom: 20%;
+            left: 12%;
+            width: 170px;
+            height: 170px;
+            background-image: url('https://i.postimg.cc/yW9QCMbb/izobrazenie-2026-02-14-182819036.png');
+            opacity: 0.08;
+            transform: rotate(-8deg) scaleX(-1);
+        }
+
         /* Основной контейнер */
-        .container {
+        .app {
             max-width: 500px;
             margin: 0 auto;
             position: relative;
-            z-index: 2;
+            z-index: 10;
         }
-        
-        /* Шапка с градиентом */
+
+        /* Верхняя панель */
         .header {
-            background: linear-gradient(145deg, rgba(255, 140, 66, 0.95) 0%, rgba(230, 100, 40, 0.95) 100%);
-            backdrop-filter: blur(10px);
-            border-radius: 28px;
-            padding: 24px 20px;
-            margin-bottom: 24px;
-            box-shadow: 0 10px 0 #8B4513, 0 15px 25px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255, 200, 150, 0.5);
-            position: relative;
-            overflow: hidden;
+            background: rgba(18, 25, 40, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
         }
-        
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -30px;
-            right: -30px;
-            width: 150px;
-            height: 150px;
-            background-image: url('https://i.postimg.cc/1R7LwPcs/izobrazenie-2026-02-14-182819036.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            opacity: 0.1;
-            transform: rotate(15deg);
-            pointer-events: none;
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
         }
-        
-        .header-content {
+
+        .logo-block {
             display: flex;
             align-items: center;
-            gap: 16px;
-            position: relative;
-            z-index: 2;
+            gap: 12px;
         }
-        
+
         .duck-logo {
-            width: 60px;
-            height: 60px;
-            background-image: url('https://i.postimg.cc/1R7LwPcs/izobrazenie-2026-02-14-182819036.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.3));
-            animation: duckWaddle 2s ease-in-out infinite;
+            width: 44px;
+            height: 44px;
+            border-radius: 22px;
+            background: linear-gradient(145deg, #FFD166, #FFB347);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            box-shadow: 0 4px 0 #CC7B3A;
+            transform: rotate(-3deg);
+            animation: duckBob 2.5s infinite;
         }
-        
-        @keyframes duckWaddle {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-3px) rotate(-3deg); }
-            75% { transform: translateY(2px) rotate(3deg); }
+
+        @keyframes duckBob {
+            0%, 100% { transform: rotate(-3deg) translateY(0); }
+            50% { transform: rotate(3deg) translateY(-4px); }
         }
-        
-        .title-section {
-            flex: 1;
-        }
-        
-        .title-section h1 {
-            font-size: 28px;
-            font-weight: 800;
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
             color: white;
-            text-shadow: 2px 2px 0 #8B4513;
-            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 0.5px;
         }
-        
-        .title-section p {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        .balance-card {
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(5px);
+
+        .balance-box {
+            background: linear-gradient(145deg, #1E2A47, #0F1A2F);
             border-radius: 40px;
-            padding: 12px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 18px;
+            border: 2px solid #FFD166;
             display: flex;
             align-items: center;
             gap: 8px;
+            box-shadow: inset 0 -3px 0 #0A0F1E, 0 5px 0 #0A0F1E;
         }
-        
-        .balance-icon {
-            font-size: 24px;
+
+        .star-icon {
+            font-size: 22px;
+            filter: drop-shadow(0 2px 2px gold);
         }
-        
-        .balance-value {
+
+        .balance-num {
             font-size: 24px;
-            font-weight: 700;
+            font-weight: 800;
             color: #FFD700;
-            text-shadow: 1px 1px 0 #8B4513;
+            text-shadow: 0 2px 0 #8B4513;
         }
-        
+
         .balance-label {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+            color: #A0B0D0;
         }
-        
-        /* Сетка игр 2x2 */
+
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 40px;
+            padding: 12px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #FFD166;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #8899CC;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Секция приветствия */
+        .welcome-card {
+            background: linear-gradient(145deg, #1E2A47, #121A2A);
+            border-radius: 30px;
+            padding: 24px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #FFD16633;
+            box-shadow: 0 10px 0 #0A0F1E;
+        }
+
+        .welcome-bg {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 150px;
+            height: 150px;
+            background-image: url('https://media1.tenor.com/m/1e7b-JCHE2kAAAAC/cxyduck-cxydck.gif');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.15;
+            transform: rotate(10deg);
+            pointer-events: none;
+        }
+
+        .welcome-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .welcome-title span {
+            color: #FFD166;
+            text-shadow: 0 2px 0 #8B4513;
+        }
+
+        .welcome-text {
+            color: #A0B0D0;
+            font-size: 15px;
+            margin-bottom: 16px;
+            max-width: 70%;
+            line-height: 1.5;
+        }
+
+        .welcome-stats {
+            display: flex;
+            gap: 16px;
+        }
+
+        .welcome-stat {
+            background: rgba(255, 209, 102, 0.1);
+            padding: 8px 16px;
+            border-radius: 40px;
+            border: 1px solid #FFD16633;
+        }
+
+        .welcome-stat span {
+            color: #FFD166;
+            font-weight: 600;
+            margin-right: 6px;
+        }
+
+        /* Категории */
+        .categories {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+            padding: 4px 0;
+            scrollbar-width: none;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-btn {
+            background: #1E2A47;
+            border: 1px solid #334155;
+            padding: 12px 28px;
+            border-radius: 40px;
+            color: #A0B0D0;
+            font-weight: 600;
+            font-size: 15px;
+            white-space: nowrap;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .category-btn.active {
+            background: #FFD166;
+            border-color: #FFB347;
+            color: #0A0F1E;
+            box-shadow: 0 4px 0 #8B4513;
+            transform: translateY(-2px);
+        }
+
+        .category-btn:hover {
+            background: #2A3A5A;
+        }
+
+        /* Сетка игр */
         .games-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
-        
-        /* Карточки игр */
+
         .game-card {
-            background: linear-gradient(145deg, #3D2B1A 0%, #2B1B0E 100%);
-            border-radius: 24px;
+            background: #1A2335;
+            border-radius: 26px;
             padding: 20px 16px;
-            text-align: center;
             cursor: pointer;
-            transition: all 0.2s ease;
-            border: 2px solid #C17B4A;
-            box-shadow: 0 8px 0 #6B3F1F, 0 10px 20px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: all 0.25s;
+            box-shadow: 0 8px 0 #0D1422, 0 8px 20px rgba(0,0,0,0.6);
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            border-color: #FFD166;
+            box-shadow: 0 13px 0 #0D1422, 0 12px 25px rgba(0,0,0,0.7);
+        }
+
+        .game-card:active {
+            transform: translateY(3px);
+            box-shadow: 0 5px 0 #0D1422, 0 8px 15px rgba(0,0,0,0.6);
+        }
+
+        .game-tag {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #FFD166;
+            color: #0A0F1E;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 700;
+            z-index: 2;
+            box-shadow: 0 2px 0 #8B4513;
+        }
+
+        .game-tag.popular {
+            background: #FF6B6B;
+            color: white;
+        }
+
+        .game-emoji {
+            font-size: 52px;
+            text-align: center;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 6px 4px #00000066);
+        }
+
+        .game-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .game-meta {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .game-mult {
+            background: #2A3A5A;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #FFD166;
+        }
+
+        .game-min {
+            background: #2A3A5A;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            color: #88DD88;
+        }
+
+        .game-players {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #8899CC;
+        }
+
+        /* Популярная игра (большая карточка) */
+        .featured-card {
+            background: linear-gradient(145deg, #1E2A47, #121A2A);
+            border-radius: 30px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 2px solid #FFD166;
+            box-shadow: 0 12px 0 #0A0F1E;
             position: relative;
             overflow: hidden;
         }
-        
-        .game-card::before {
-            content: '';
+
+        .featured-bg-duck {
             position: absolute;
-            top: -20px;
+            bottom: -20px;
             right: -20px;
-            width: 80px;
-            height: 80px;
-            background-image: url('https://cdn-icons-png.flaticon.com/512/616/616554.png');
+            width: 200px;
+            height: 200px;
+            background-image: url('https://avatars.mds.yandex.net/i?id=124bd57b260e8a4e4661daa0de7ad51486ff1663-9033858-images-thumbs&n=13');
             background-size: contain;
             background-repeat: no-repeat;
-            opacity: 0.1;
-            transform: rotate(20deg);
+            opacity: 0.15;
+            transform: rotate(-8deg);
             pointer-events: none;
         }
-        
-        .game-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 0 #6B3F1F, 0 15px 25px rgba(0,0,0,0.4);
+
+        .featured-label {
+            background: #FFD166;
+            color: #0A0F1E;
+            padding: 6px 18px;
+            border-radius: 40px;
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 0 #8B4513;
         }
-        
-        .game-card:active {
-            transform: translateY(4px);
-            box-shadow: 0 4px 0 #6B3F1F, 0 10px 20px rgba(0,0,0,0.3);
-        }
-        
-        .game-emoji {
-            font-size: 48px;
+
+        .featured-name {
+            font-size: 36px;
+            font-weight: 800;
+            color: #FFD166;
             margin-bottom: 8px;
-            filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3));
-            transform: scale(1);
-            transition: transform 0.2s;
+            text-shadow: 0 4px 0 #8B4513;
+            line-height: 1.1;
         }
-        
-        .game-card:hover .game-emoji {
-            transform: scale(1.1);
+
+        .featured-desc {
+            font-size: 16px;
+            color: #A0B0D0;
+            margin-bottom: 20px;
+            max-width: 70%;
         }
-        
-        .game-title {
+
+        .featured-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .play-btn {
+            background: #FFD166;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 60px;
             font-size: 18px;
             font-weight: 700;
-            color: #FFB86C;
-            margin-bottom: 4px;
-            text-shadow: 1px 1px 0 #4A2E1A;
+            color: #0A0F1E;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #8B4513;
+            transition: all 0.2s;
+            flex: 1;
         }
-        
-        .game-multiplier {
-            font-size: 13px;
-            color: #FFD700;
-            background: rgba(139, 69, 19, 0.5);
-            padding: 4px 8px;
-            border-radius: 30px;
-            display: inline-block;
-            border: 1px solid #C17B4A;
+
+        .play-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 0 #8B4513;
         }
-        
-        /* Модальное окно */
+
+        .play-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 #8B4513;
+        }
+
+        .info-btn {
+            background: transparent;
+            border: 2px solid #FFD166;
+            padding: 14px 24px;
+            border-radius: 60px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #FFD166;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .info-btn:hover {
+            background: #FFD16622;
+        }
+
+        /* Модальное окно игры */
         .modal {
             display: none;
             position: fixed;
@@ -276,356 +521,486 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(12px);
             justify-content: center;
             align-items: center;
             z-index: 1000;
             padding: 16px;
         }
-        
+
         .modal-content {
-            background: linear-gradient(145deg, #3D2B1A 0%, #2B1B0E 100%);
-            border-radius: 32px;
-            padding: 24px;
+            background: #1A2335;
+            border-radius: 40px;
+            padding: 28px;
             width: 100%;
-            max-width: 400px;
-            border: 2px solid #C17B4A;
-            box-shadow: 0 15px 0 #6B3F1F, 0 20px 30px rgba(0,0,0,0.5);
+            max-width: 440px;
+            border: 2px solid #FFD166;
+            box-shadow: 0 20px 0 #0A0F1E, 0 20px 40px rgba(0,0,0,0.6);
             position: relative;
-            animation: modalPop 0.3s ease;
+            overflow: hidden;
         }
-        
-        @keyframes modalPop {
-            0% { transform: scale(0.9); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+
+        .modal-duck {
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 150px;
+            height: 150px;
+            background-image: url('https://i.postimg.cc/yW9QCMbb/izobrazenie-2026-02-14-182819036.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.1;
+            transform: rotate(15deg);
+            pointer-events: none;
         }
-        
+
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid #C17B4A;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #334155;
         }
-        
-        .modal-header h2 {
-            color: #FFB86C;
-            font-size: 24px;
+
+        .modal-title {
+            font-size: 28px;
             font-weight: 700;
-            text-shadow: 1px 1px 0 #4A2E1A;
+            color: #FFD166;
+            text-shadow: 0 2px 0 #8B4513;
         }
-        
+
         .modal-balance {
-            background: rgba(0,0,0,0.3);
-            padding: 8px 16px;
-            border-radius: 30px;
-            border: 1px solid #C17B4A;
+            background: #0D1422;
+            padding: 10px 18px;
+            border-radius: 40px;
+            border: 1px solid #FFD166;
             color: #FFD700;
             font-weight: 600;
+            font-size: 18px;
         }
-        
-        .game-area {
-            background: rgba(0,0,0,0.2);
-            border-radius: 24px;
-            padding: 20px;
+
+        .game-panel {
+            background: #0D1422;
+            border-radius: 30px;
+            padding: 24px;
             margin-bottom: 20px;
-            border: 1px solid #C17B4A;
+            border: 1px solid #334155;
         }
-        
-        /* Кнопки */
-        .button-group {
+
+        /* Слоты */
+        .slots-display {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .slot-cell {
+            background: #2A3A5A;
+            border-radius: 24px;
+            padding: 24px 8px;
+            font-size: 48px;
+            text-align: center;
+            border: 3px solid #FFD166;
+            box-shadow: inset 0 -5px 0 #8B4513;
+        }
+
+        /* Кости */
+        .dice-display {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .dice-box {
+            width: 120px;
+            height: 120px;
+            background: #2A3A5A;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            border: 4px solid #FFD166;
+            box-shadow: 0 8px 0 #8B4513;
+        }
+
+        /* Кнопки выбора */
+        .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .choice-btn {
+            aspect-ratio: 1;
+            background: #2A3A5A;
+            border: 3px solid #FFD166;
+            border-radius: 30px;
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 5px 0 #8B4513;
+        }
+
+        .choice-btn.selected {
+            background: #FFD166;
+            color: #0A0F1E;
+            transform: translateY(2px);
+            box-shadow: 0 3px 0 #8B4513;
+        }
+
+        /* Кейсы */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .case-item {
+            aspect-ratio: 1;
+            background: linear-gradient(145deg, #FFD166, #FFB347);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid white;
+            box-shadow: 0 8px 0 #8B4513;
+            color: #0A0F1E;
+            font-weight: bold;
+        }
+
+        .case-item:hover {
+            transform: scale(0.95);
+        }
+
+        .case-item.opened {
+            background: #4A5A7A;
+            border-color: #8899CC;
+            box-shadow: 0 5px 0 #2A3A5A;
+        }
+
+        /* Поле ввода ставки */
+        .bet-field {
+            width: 100%;
+            padding: 18px;
+            background: #2A3A5A;
+            border: 3px solid #FFD166;
+            border-radius: 60px;
+            font-size: 20px;
+            text-align: center;
+            font-weight: 600;
+            color: white;
+            margin: 15px 0;
+        }
+
+        .bet-field:focus {
+            outline: none;
+            border-color: #FFB347;
+            box-shadow: 0 0 0 3px #FFD16666;
+        }
+
+        /* Кнопки действий */
+        .action-buttons {
             display: flex;
             gap: 12px;
-            margin-top: 16px;
+            margin-top: 20px;
         }
-        
-        .btn {
+
+        .action-btn {
             flex: 1;
-            padding: 16px;
+            padding: 18px;
             border: none;
-            border-radius: 40px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 60px;
+            font-size: 18px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        
-        .btn-primary {
-            background: linear-gradient(145deg, #FF8C42 0%, #E66629 100%);
-            color: white;
-            border-bottom: 4px solid #8B4513;
-            box-shadow: 0 4px 10px rgba(230, 102, 41, 0.4);
+
+        .action-btn.primary {
+            background: #FFD166;
+            color: #0A0F1E;
+            box-shadow: 0 6px 0 #8B4513;
         }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            border-bottom-width: 6px;
+
+        .action-btn.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 0 #8B4513;
         }
-        
-        .btn-primary:active {
-            transform: translateY(2px);
-            border-bottom-width: 2px;
+
+        .action-btn.primary:active {
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 #8B4513;
         }
-        
-        .btn-secondary {
-            background: #4A4A4A;
-            color: #CCCCCC;
-            border-bottom: 4px solid #2D2D2D;
+
+        .action-btn.secondary {
+            background: #334155;
+            color: #A0B0D0;
+            box-shadow: 0 6px 0 #1E2A47;
         }
-        
-        .btn-secondary:hover {
-            background: #5A5A5A;
-        }
-        
-        /* Элементы игр */
-        .slot-machine {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin: 16px 0;
-        }
-        
-        .slot-item {
-            background: #FFE4B5;
-            border-radius: 16px;
-            padding: 20px 8px;
-            font-size: 40px;
-            text-align: center;
-            border: 3px solid #C17B4A;
-            box-shadow: inset 0 -4px 0 #8B4513;
-        }
-        
-        .bet-input {
-            width: 100%;
-            padding: 16px;
-            background: #FFE4B5;
-            border: 3px solid #C17B4A;
-            border-radius: 40px;
-            font-size: 18px;
-            text-align: center;
-            font-weight: 600;
-            color: #4A2E1A;
-            margin: 12px 0;
-        }
-        
-        .bet-input:focus {
-            outline: none;
-            border-color: #FF8C42;
-            box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.3);
-        }
-        
-        .choice-buttons {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin: 16px 0;
-        }
-        
-        .choice-btn {
-            aspect-ratio: 1;
-            border: 3px solid #C17B4A;
-            border-radius: 20px;
-            background: #FFE4B5;
-            font-size: 24px;
-            font-weight: 600;
-            color: #4A2E1A;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 4px 0 #8B4513;
-        }
-        
-        .choice-btn.selected {
-            background: #FF8C42;
-            color: white;
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #8B4513;
-        }
-        
-        .case-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin: 16px 0;
-        }
-        
-        .case {
-            aspect-ratio: 1;
-            background: linear-gradient(145deg, #C17B4A 0%, #8B4513 100%);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid #FFB86C;
-            box-shadow: 0 6px 0 #5A2E0F;
-            color: white;
-            font-weight: bold;
-        }
-        
-        .case:hover {
-            transform: scale(0.95);
-        }
-        
-        .case.opened {
-            background: #4A4A4A;
-            border-color: #666;
-            box-shadow: 0 4px 0 #333;
-        }
-        
-        .result {
+
+        /* Результат игры */
+        .game-result {
             margin-top: 16px;
-            padding: 12px;
-            border-radius: 30px;
-            font-size: 16px;
+            padding: 16px;
+            border-radius: 60px;
+            font-size: 18px;
             font-weight: 600;
             text-align: center;
+            animation: resultPop 0.3s;
         }
-        
-        .win {
-            background: rgba(46, 125, 50, 0.2);
-            color: #81C784;
-            border: 2px solid #2E7D32;
+
+        @keyframes resultPop {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
-        
-        .lose {
-            background: rgba(198, 40, 40, 0.2);
-            color: #EF5350;
-            border: 2px solid #C62828;
+
+        .win-result {
+            background: rgba(76, 175, 80, 0.2);
+            color: #88DD88;
+            border: 2px solid #4CAF50;
         }
-        
-        .error-message {
-            background: rgba(198, 40, 40, 0.2);
+
+        .lose-result {
+            background: rgba(244, 67, 54, 0.2);
             color: #FF8A80;
-            padding: 12px;
-            border-radius: 30px;
-            margin: 10px 0;
-            border: 2px solid #C62828;
-            text-align: center;
+            border: 2px solid #F44336;
         }
-        
-        /* Статистика */
-        .stats-bar {
+
+        /* Сообщение об ошибке */
+        .error-msg {
+            background: rgba(244, 67, 54, 0.2);
+            color: #FF8A80;
+            padding: 14px;
+            border-radius: 60px;
+            margin: 10px 0;
+            border: 2px solid #F44336;
+            text-align: center;
+            font-weight: 600;
+            animation: errorShake 0.4s;
+        }
+
+        @keyframes errorShake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+
+        /* Нижняя панель */
+        .footer {
+            background: rgba(18, 25, 40, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 16px 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             justify-content: space-between;
-            background: rgba(0,0,0,0.2);
+            align-items: center;
+        }
+
+        .footer-link {
+            color: #8899CC;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 8px 16px;
             border-radius: 40px;
-            padding: 12px 20px;
-            margin-top: 16px;
-            border: 1px solid #C17B4A;
-            color: #FFB86C;
+            transition: background 0.2s;
         }
-        
-        .stat-item {
-            text-align: center;
+
+        .footer-link:hover {
+            background: #1E2A47;
+            color: #FFD166;
         }
-        
-        .stat-value {
+
+        .footer-link span {
             font-size: 18px;
-            font-weight: 700;
-            color: #FFD700;
         }
-        
-        .stat-label {
-            font-size: 11px;
-            opacity: 0.8;
-        }
-        
-        /* Анимации переходов */
-        .fade-in {
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        .footer-copyright {
+            color: #556688;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
-    <!-- Разные утки без фона -->
-    <div class="duck-bg duck-1"></div>
-    <div class="duck-bg duck-2"></div>
-    <div class="duck-bg duck-3"></div>
-    <div class="duck-bg duck-4"></div>
-    <div class="duck-bg duck-5"></div>
+    <!-- Фоновые утки (6 штук из разных источников) -->
+    <div class="bg-duck bg-duck-1"></div>
+    <div class="bg-duck bg-duck-2"></div>
+    <div class="bg-duck bg-duck-3"></div>
+    <div class="bg-duck bg-duck-4"></div>
+    <div class="bg-duck bg-duck-5"></div>
+    <div class="bg-duck bg-duck-6"></div>
 
-    <div class="container fade-in">
-        <!-- Шапка -->
+    <div class="app">
+        <!-- Верхний бар -->
         <div class="header">
-            <div class="header-content">
-                <div class="duck-logo"></div>
-                <div class="title-section">
-                    <h1>Duck Games</h1>
-                    <p>Играй и зарабатывай ⭐️</p>
+            <div class="header-top">
+                <div class="logo-block">
+                    <div class="duck-logo">🦆</div>
+                    <div class="logo-text">DUCK GAMES</div>
                 </div>
-                <div class="balance-card">
-                    <span class="balance-icon">⭐️</span>
-                    <span class="balance-value" id="balance">0</span>
+                <div class="balance-box">
+                    <span class="star-icon">⭐️</span>
+                    <span class="balance-num" id="balanceDisplay">0</span>
+                    <span class="balance-label">stars</span>
+                </div>
+            </div>
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-value" id="gamesPlayed">0</div>
+                    <div class="stat-label">ИГР</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="gamesWon">0</div>
+                    <div class="stat-label">ПОБЕД</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="totalEarned">0</div>
+                    <div class="stat-label">ВЫИГРАНО</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="winRate">0%</div>
+                    <div class="stat-label">ВИНРЕЙТ</div>
                 </div>
             </div>
         </div>
-        
-        <!-- Сетка игр 2x2 -->
+
+        <!-- Приветственная карточка с уткой -->
+        <div class="welcome-card">
+            <div class="welcome-bg"></div>
+            <div class="welcome-title">Привет, <span>Duck!</span></div>
+            <div class="welcome-text">Играй в мини-игры и зарабатывай звёзды. Утки ждут!</div>
+            <div class="welcome-stats">
+                <div class="welcome-stat"><span>🎰</span> 4 игры</div>
+                <div class="welcome-stat"><span>⭐️</span> x10 множитель</div>
+            </div>
+        </div>
+
+        <!-- Категории игр -->
+        <div class="categories">
+            <div class="category-btn active">Все игры</div>
+            <div class="category-btn">На удачу</div>
+            <div class="category-btn">Стратегия</div>
+            <div class="category-btn">Быстрые</div>
+            <div class="category-btn">Популярные</div>
+        </div>
+
+        <!-- Популярная игра (большая карточка) -->
+        <div class="featured-card">
+            <div class="featured-bg-duck"></div>
+            <div class="featured-label">🔥 ПОПУЛЯРНОЕ</div>
+            <div class="featured-name">Duck Slots</div>
+            <div class="featured-desc">Крути слоты и выигрывай до x10 множителя</div>
+            <div class="featured-buttons">
+                <button class="play-btn" onclick="openGame('slots')">ИГРАТЬ</button>
+                <button class="info-btn">❓</button>
+            </div>
+        </div>
+
+        <!-- Сетка игр -->
         <div class="games-grid">
             <div class="game-card" onclick="openGame('slots')">
+                <div class="game-tag popular">🔥</div>
                 <div class="game-emoji">🎰</div>
-                <div class="game-title">Слоты</div>
-                <div class="game-multiplier">x2 - x10</div>
+                <div class="game-name">Слоты</div>
+                <div class="game-meta">
+                    <span class="game-mult">x10</span>
+                    <span class="game-min">от 5⭐️</span>
+                </div>
+                <div class="game-players">
+                    <span>👥 234</span>
+                    <span>⚡️ 1.2k</span>
+                </div>
             </div>
+
             <div class="game-card" onclick="openGame('dice')">
+                <div class="game-tag">🎲</div>
                 <div class="game-emoji">🎲</div>
-                <div class="game-title">Кости</div>
-                <div class="game-multiplier">x6</div>
+                <div class="game-name">Кости</div>
+                <div class="game-meta">
+                    <span class="game-mult">x6</span>
+                    <span class="game-min">от 1⭐️</span>
+                </div>
+                <div class="game-players">
+                    <span>👥 156</span>
+                    <span>⚡️ 892</span>
+                </div>
             </div>
+
             <div class="game-card" onclick="openGame('coin')">
+                <div class="game-tag">🪙</div>
                 <div class="game-emoji">🪙</div>
-                <div class="game-title">Орёл/Решка</div>
-                <div class="game-multiplier">x2</div>
+                <div class="game-name">Орёл/Решка</div>
+                <div class="game-meta">
+                    <span class="game-mult">x2</span>
+                    <span class="game-min">от 1⭐️</span>
+                </div>
+                <div class="game-players">
+                    <span>👥 321</span>
+                    <span>⚡️ 1.5k</span>
+                </div>
             </div>
+
             <div class="game-card" onclick="openGame('cases')">
+                <div class="game-tag new">🆕</div>
                 <div class="game-emoji">🎁</div>
-                <div class="game-title">Кейсы</div>
-                <div class="game-multiplier">5-100⭐️</div>
+                <div class="game-name">Кейсы</div>
+                <div class="game-meta">
+                    <span class="game-mult">5-100⭐️</span>
+                    <span class="game-min">10⭐️</span>
+                </div>
+                <div class="game-players">
+                    <span>👥 98</span>
+                    <span>⚡️ 567</span>
+                </div>
             </div>
         </div>
-        
-        <!-- Статистика -->
-        <div class="stats-bar" id="stats">
-            <div class="stat-item">
-                <div class="stat-value" id="gamesPlayed">0</div>
-                <div class="stat-label">Игр</div>
+
+        <!-- Нижняя панель -->
+        <div class="footer">
+            <div class="footer-link">
+                <span>🦆</span> О проекте
             </div>
-            <div class="stat-item">
-                <div class="stat-value" id="totalWon">0</div>
-                <div class="stat-label">Выиграно</div>
+            <div class="footer-link">
+                <span>📊</span> Статистика
             </div>
-            <div class="stat-item">
-                <div class="stat-value" id="winRate">0%</div>
-                <div class="stat-label">Побед</div>
+            <div class="footer-copyright">
+                Duck Games © 2026
             </div>
         </div>
     </div>
-    
+
     <!-- Модальное окно игры -->
     <div class="modal" id="gameModal">
         <div class="modal-content">
+            <div class="modal-duck"></div>
             <div class="modal-header">
-                <h2 id="gameTitle">🎰 Слоты</h2>
+                <div class="modal-title" id="gameTitle">Слоты</div>
                 <div class="modal-balance" id="modalBalance">0 ⭐️</div>
             </div>
             
-            <div class="game-area" id="gameArea"></div>
-            <div id="errorContainer" class="error-message" style="display: none;"></div>
+            <div class="game-panel" id="gamePanel"></div>
+            <div id="errorMessage" class="error-msg" style="display: none;"></div>
             
-            <div class="button-group">
-                <button class="btn btn-primary" id="playBtn" onclick="playGame()">Играть</button>
-                <button class="btn btn-secondary" onclick="closeGame()">Назад</button>
+            <div class="action-buttons">
+                <button class="action-btn primary" id="playButton" onclick="playGame()">Играть</button>
+                <button class="action-btn secondary" onclick="closeGame()">Закрыть</button>
             </div>
         </div>
     </div>
@@ -636,147 +1011,149 @@
         let currentGame = '';
         let selectedChoice = null;
         let userBalance = 0;
-        let gamesStats = {
+        let gameStats = {
             played: 0,
             won: 0,
             totalWon: 0
         };
-        
+
         tg.expand();
         tg.MainButton.hide();
-        
-        function showError(message) {
-            const errorDiv = document.getElementById('errorContainer');
+
+        // Показать ошибку
+        function showError(text) {
+            const errorDiv = document.getElementById('errorMessage');
             errorDiv.style.display = 'block';
-            errorDiv.textContent = message;
+            errorDiv.textContent = text;
             setTimeout(() => {
                 errorDiv.style.display = 'none';
             }, 3000);
         }
-        
-        async function updateBalance() {
+
+        // Обновить баланс
+        async function refreshBalance() {
             try {
-                const response = await fetch(`/api/balance?user_id=${userId}`);
-                const data = await response.json();
+                const res = await fetch(`/api/balance?user_id=${userId}`);
+                const data = await res.json();
                 if (data.success) {
                     userBalance = data.balance;
-                    document.getElementById('balance').textContent = userBalance;
+                    document.getElementById('balanceDisplay').textContent = userBalance;
                     document.getElementById('modalBalance').textContent = userBalance + ' ⭐️';
-                    
-                    // Обновляем статистику
-                    if (data.stats) {
-                        gamesStats = data.stats;
-                        updateStats();
-                    }
                 }
-            } catch (error) {
-                console.error('Balance update error:', error);
+            } catch (e) {
+                console.error('Balance error:', e);
             }
         }
-        
+
+        // Обновить статистику
         function updateStats() {
-            document.getElementById('gamesPlayed').textContent = gamesStats.played || 0;
-            document.getElementById('totalWon').textContent = gamesStats.totalWon || 0;
-            let winRate = gamesStats.played > 0 ? Math.round((gamesStats.won / gamesStats.played) * 100) : 0;
-            document.getElementById('winRate').textContent = winRate + '%';
+            document.getElementById('gamesPlayed').textContent = gameStats.played;
+            document.getElementById('gamesWon').textContent = gameStats.won;
+            document.getElementById('totalEarned').textContent = gameStats.totalWon;
+            const rate = gameStats.played > 0 ? Math.round((gameStats.won / gameStats.played) * 100) : 0;
+            document.getElementById('winRate').textContent = rate + '%';
         }
-        
+
+        // Отправить действие
         async function sendGameAction(action, data) {
             try {
-                const response = await fetch('/api/game', {
+                const res = await fetch('/api/game', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
                         user_id: userId,
                         action: action,
                         ...data
                     })
                 });
-                return await response.json();
-            } catch (error) {
-                console.error('Game action error:', error);
+                return await res.json();
+            } catch (e) {
+                console.error('Action error:', e);
                 showError('Ошибка соединения');
                 return { success: false };
             }
         }
-        
+
+        // Открыть игру
         function openGame(game) {
             currentGame = game;
             document.getElementById('gameModal').style.display = 'flex';
-            document.getElementById('errorContainer').style.display = 'none';
-            updateBalance();
-            
-            let gameArea = document.getElementById('gameArea');
-            let playBtn = document.getElementById('playBtn');
-            
+            document.getElementById('errorMessage').style.display = 'none';
+            refreshBalance();
+
+            const panel = document.getElementById('gamePanel');
+            const playBtn = document.getElementById('playButton');
+
             const games = {
                 slots: {
                     title: '🎰 Слоты',
                     html: `
-                        <div class="slot-machine" id="slotMachine">
-                            <div class="slot-item">❓</div>
-                            <div class="slot-item">❓</div>
-                            <div class="slot-item">❓</div>
+                        <div class="slots-display" id="slotsDisplay">
+                            <div class="slot-cell">❓</div>
+                            <div class="slot-cell">❓</div>
+                            <div class="slot-cell">❓</div>
                         </div>
-                        <input type="number" class="bet-input" id="betAmount" min="5" max="100" value="10" step="5">
-                        <div style="color: #FFB86C; text-align: center;">Ставка: 5-100 ⭐️</div>
-                        <div class="result" id="gameResult"></div>
+                        <input type="number" class="bet-field" id="betAmount" min="5" max="100" value="10" step="5">
+                        <div style="text-align: center; color: #A0B0D0; margin-top: 8px;">Ставка: 5-100 ⭐️</div>
+                        <div class="game-result" id="gameResult"></div>
                     `
                 },
                 dice: {
                     title: '🎲 Кости',
                     html: `
-                        <div style="display: flex; justify-content: center; margin: 20px 0;">
-                            <div class="slot-item" id="diceResult" style="width: 100px;">🎲</div>
+                        <div class="dice-display">
+                            <div class="dice-box" id="diceResult">🎲</div>
                         </div>
-                        <div class="choice-buttons">
-                            ${[1,2,3,4,5,6].map(n => 
-                                `<button class="choice-btn" onclick="selectChoice(${n})">${n}</button>`
-                            ).join('')}
+                        <div class="choice-grid">
+                            <button class="choice-btn" onclick="selectChoice(1)">1</button>
+                            <button class="choice-btn" onclick="selectChoice(2)">2</button>
+                            <button class="choice-btn" onclick="selectChoice(3)">3</button>
+                            <button class="choice-btn" onclick="selectChoice(4)">4</button>
+                            <button class="choice-btn" onclick="selectChoice(5)">5</button>
+                            <button class="choice-btn" onclick="selectChoice(6)">6</button>
                         </div>
-                        <input type="number" class="bet-input" id="betAmount" min="1" max="50" value="5" step="1">
-                        <div style="color: #FFB86C; text-align: center;">Ставка: 1-50 ⭐️</div>
-                        <div class="result" id="gameResult"></div>
+                        <input type="number" class="bet-field" id="betAmount" min="1" max="50" value="5" step="1">
+                        <div style="text-align: center; color: #A0B0D0;">Ставка: 1-50 ⭐️</div>
+                        <div class="game-result" id="gameResult"></div>
                     `
                 },
                 coin: {
                     title: '🪙 Орёл/Решка',
                     html: `
-                        <div style="display: flex; justify-content: center; margin: 20px 0;">
-                            <div class="slot-item" id="coinResult" style="width: 100px;">🪙</div>
+                        <div class="dice-display">
+                            <div class="dice-box" id="coinResult">🪙</div>
                         </div>
-                        <div class="choice-buttons">
+                        <div class="choice-grid" style="grid-template-columns: repeat(2, 1fr);">
                             <button class="choice-btn" onclick="selectChoice('orel')">🦅</button>
                             <button class="choice-btn" onclick="selectChoice('reshka')">💰</button>
                         </div>
-                        <input type="number" class="bet-input" id="betAmount" min="1" max="100" value="5" step="1">
-                        <div style="color: #FFB86C; text-align: center;">Ставка: 1-100 ⭐️</div>
-                        <div class="result" id="gameResult"></div>
+                        <input type="number" class="bet-field" id="betAmount" min="1" max="100" value="5" step="1">
+                        <div style="text-align: center; color: #A0B0D0;">Ставка: 1-100 ⭐️</div>
+                        <div class="game-result" id="gameResult"></div>
                     `
                 },
                 cases: {
                     title: '🎁 Кейсы',
                     html: `
-                        <div class="case-grid" id="caseGrid">
-                            <div class="case" onclick="openCase(1)">🔒</div>
-                            <div class="case" onclick="openCase(2)">🔒</div>
-                            <div class="case" onclick="openCase(3)">🔒</div>
+                        <div class="cases-grid" id="casesGrid">
+                            <div class="case-item" onclick="openCase(1)">❓</div>
+                            <div class="case-item" onclick="openCase(2)">❓</div>
+                            <div class="case-item" onclick="openCase(3)">❓</div>
                         </div>
-                        <div style="color: #FFB86C; text-align: center; margin: 10px 0;">Цена: 10 ⭐️</div>
-                        <div class="result" id="gameResult"></div>
+                        <div style="text-align: center; color: #FFD166; margin: 15px 0;">Цена: 10 ⭐️</div>
+                        <div class="game-result" id="gameResult"></div>
                     `,
                     hidePlay: true
                 }
             };
-            
-            const game = games[game];
-            document.getElementById('gameTitle').textContent = game.title;
-            gameArea.innerHTML = game.html;
-            playBtn.style.display = game.hidePlay ? 'none' : 'block';
+
+            const g = games[game];
+            document.getElementById('gameTitle').textContent = g.title;
+            panel.innerHTML = g.html;
+            playBtn.style.display = g.hidePlay ? 'none' : 'block';
         }
-        
+
+        // Выбрать вариант
         function selectChoice(choice) {
             selectedChoice = choice;
             document.querySelectorAll('.choice-btn').forEach(btn => {
@@ -784,112 +1161,111 @@
             });
             event.target.classList.add('selected');
         }
-        
+
+        // Сыграть
         async function playGame() {
-            let betInput = document.getElementById('betAmount');
-            let bet = betInput ? parseInt(betInput.value) : 10;
-            
+            const betInput = document.getElementById('betAmount');
+            const bet = betInput ? parseInt(betInput.value) : 10;
+
             if (bet > userBalance) {
-                showError('Недостаточно средств!');
+                showError('Недостаточно звёзд!');
                 return;
             }
-            
+
             let result;
-            switch(currentGame) {
-                case 'slots':
-                    if (bet < 5 || bet > 100) {
-                        showError('Ставка от 5 до 100 ⭐️');
-                        return;
-                    }
-                    result = await sendGameAction('slots', { bet });
-                    if (result?.success) {
-                        let slots = document.querySelectorAll('.slot-item');
-                        result.slots?.forEach((slot, i) => slots[i].textContent = slot);
-                    }
-                    break;
-                    
-                case 'dice':
-                    if (!selectedChoice) {
-                        showError('Выберите число!');
-                        return;
-                    }
-                    result = await sendGameAction('dice', { bet, choice: selectedChoice });
-                    if (result?.success) {
-                        document.getElementById('diceResult').textContent = result.dice_value;
-                    }
-                    break;
-                    
-                case 'coin':
-                    if (!selectedChoice) {
-                        showError('Выберите сторону!');
-                        return;
-                    }
-                    result = await sendGameAction('coin', { bet, choice: selectedChoice });
-                    if (result?.success) {
-                        document.getElementById('coinResult').textContent = 
-                            result.coin_value === 'orel' ? '🦅' : '💰';
-                    }
-                    break;
+            if (currentGame === 'slots') {
+                if (bet < 5 || bet > 100) {
+                    showError('Ставка от 5 до 100 ⭐️');
+                    return;
+                }
+                result = await sendGameAction('slots', { bet });
+                if (result?.success && result.slots) {
+                    document.querySelectorAll('.slot-cell').forEach((el, i) => {
+                        el.textContent = result.slots[i];
+                    });
+                }
+            } 
+            else if (currentGame === 'dice') {
+                if (!selectedChoice) {
+                    showError('Выбери число!');
+                    return;
+                }
+                result = await sendGameAction('dice', { bet, choice: selectedChoice });
+                if (result?.success && result.dice_value) {
+                    document.getElementById('diceResult').textContent = result.dice_value;
+                }
+            } 
+            else if (currentGame === 'coin') {
+                if (!selectedChoice) {
+                    showError('Выбери сторону!');
+                    return;
+                }
+                result = await sendGameAction('coin', { bet, choice: selectedChoice });
+                if (result?.success && result.coin_value) {
+                    document.getElementById('coinResult').textContent = 
+                        result.coin_value === 'orel' ? '🦅' : '💰';
+                }
             }
-            
+
             if (result?.success) {
                 userBalance = result.new_balance;
-                document.getElementById('balance').textContent = userBalance;
+                document.getElementById('balanceDisplay').textContent = userBalance;
                 document.getElementById('modalBalance').textContent = userBalance + ' ⭐️';
-                
-                let gameResult = document.getElementById('gameResult');
-                gameResult.className = `result ${result.win ? 'win' : 'lose'}`;
-                gameResult.textContent = result.win ? 
-                    `🎉 +${result.win_amount} ⭐️` : '😢 Проигрыш';
-                
-                // Обновляем статистику
-                gamesStats.played++;
+
+                const resultDiv = document.getElementById('gameResult');
+                resultDiv.className = `game-result ${result.win ? 'win-result' : 'lose-result'}`;
+                resultDiv.textContent = result.win ? `🎉 +${result.win_amount} ⭐️` : '❌ Проигрыш';
+
+                gameStats.played++;
                 if (result.win) {
-                    gamesStats.won++;
-                    gamesStats.totalWon += result.win_amount;
+                    gameStats.won++;
+                    gameStats.totalWon += result.win_amount;
                 }
                 updateStats();
             }
         }
-        
-        async function openCase(caseNum) {
+
+        // Открыть кейс
+        async function openCase(num) {
             if (userBalance < 10) {
-                showError('Недостаточно средств!');
+                showError('Нужно 10 ⭐️');
                 return;
             }
-            
-            let result = await sendGameAction('case', { case: caseNum });
-            
+
+            const result = await sendGameAction('case', { case: num });
+
             if (result?.success) {
                 userBalance = result.new_balance;
-                document.getElementById('balance').textContent = userBalance;
+                document.getElementById('balanceDisplay').textContent = userBalance;
                 document.getElementById('modalBalance').textContent = userBalance + ' ⭐️';
-                
-                let caseElement = event.target;
-                caseElement.textContent = result.prize;
-                caseElement.classList.add('opened');
-                caseElement.onclick = null;
-                
-                let gameResult = document.getElementById('gameResult');
-                gameResult.className = 'result win';
-                gameResult.textContent = `🎉 +${result.prize} ⭐️`;
-                
-                gamesStats.played++;
-                gamesStats.won++;
-                gamesStats.totalWon += result.prize;
+
+                const caseEl = event.target;
+                caseEl.textContent = result.prize;
+                caseEl.classList.add('opened');
+                caseEl.onclick = null;
+
+                const resultDiv = document.getElementById('gameResult');
+                resultDiv.className = 'game-result win-result';
+                resultDiv.textContent = `🎉 +${result.prize} ⭐️`;
+
+                gameStats.played++;
+                gameStats.won++;
+                gameStats.totalWon += result.prize;
                 updateStats();
             }
         }
-        
+
+        // Закрыть игру
         function closeGame() {
             document.getElementById('gameModal').style.display = 'none';
             selectedChoice = null;
-            updateBalance();
+            refreshBalance();
         }
-        
+
         // Инициализация
-        updateBalance();
-        setInterval(updateBalance, 5000);
+        refreshBalance();
+        setInterval(refreshBalance, 5000);
+        updateStats();
     </script>
 </body>
 </html>
