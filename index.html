@@ -14,84 +14,53 @@
         }
 
         body {
-            background: #0F172A;
+            background: linear-gradient(145deg, #87CEEB 0%, #B0E0E6 100%);
             min-height: 100vh;
             padding: 16px;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* Фоновые эмодзи */
+        /* Фоновые эмодзи - только звезды и монетки */
         .bg-emoji {
             position: fixed;
             pointer-events: none;
             z-index: 0;
             font-size: 24px;
-            opacity: 0.1;
-            animation: float 10s infinite linear;
+            opacity: 0.15;
+            animation: float 15s infinite linear;
             user-select: none;
         }
 
         @keyframes float {
             0% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
+            25% { transform: translateY(-20px) rotate(5deg); }
+            75% { transform: translateY(20px) rotate(-5deg); }
             100% { transform: translateY(0) rotate(0deg); }
         }
 
         /* Звездочки */
-        .star-1 { top: 5%; left: 3%; animation-delay: 0s; font-size: 28px; }
-        .star-2 { top: 15%; right: 8%; animation-delay: 1s; font-size: 32px; }
-        .star-3 { top: 45%; left: 12%; animation-delay: 2s; font-size: 24px; }
-        .star-4 { top: 70%; right: 15%; animation-delay: 3s; font-size: 36px; }
-        .star-5 { top: 85%; left: 20%; animation-delay: 4s; font-size: 30px; }
-        .star-6 { top: 25%; right: 25%; animation-delay: 5s; font-size: 26px; }
-        .star-7 { top: 60%; left: 30%; animation-delay: 6s; font-size: 34px; }
+        .star-1 { top: 2%; left: 3%; animation-delay: 0s; font-size: 28px; }
+        .star-2 { top: 10%; right: 5%; animation-delay: 1s; font-size: 32px; }
+        .star-3 { top: 25%; left: 8%; animation-delay: 2s; font-size: 24px; }
+        .star-4 { top: 35%; right: 12%; animation-delay: 3s; font-size: 36px; }
+        .star-5 { top: 45%; left: 15%; animation-delay: 4s; font-size: 30px; }
+        .star-6 { top: 55%; right: 8%; animation-delay: 5s; font-size: 26px; }
+        .star-7 { top: 65%; left: 5%; animation-delay: 6s; font-size: 34px; }
+        .star-8 { top: 75%; right: 18%; animation-delay: 7s; font-size: 28px; }
+        .star-9 { top: 85%; left: 12%; animation-delay: 8s; font-size: 32px; }
+        .star-10 { top: 95%; right: 5%; animation-delay: 9s; font-size: 24px; }
         
         /* Монетки */
-        .coin-1 { top: 8%; left: 40%; animation-delay: 0.5s; font-size: 32px; }
-        .coin-2 { top: 35%; right: 35%; animation-delay: 1.5s; font-size: 28px; }
-        .coin-3 { top: 55%; left: 50%; animation-delay: 2.5s; font-size: 36px; }
-        .coin-4 { top: 80%; right: 45%; animation-delay: 3.5s; font-size: 30px; }
-        .coin-5 { top: 20%; left: 70%; animation-delay: 4.5s; font-size: 26px; }
-        .coin-6 { top: 65%; right: 60%; animation-delay: 5.5s; font-size: 34px; }
-
-        /* Утки из вашей картинки */
-        .duck-bg {
-            position: fixed;
-            pointer-events: none;
-            z-index: 0;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            opacity: 0.08;
-        }
-
-        .duck-1 {
-            top: 10%;
-            left: 5%;
-            width: 150px;
-            height: 150px;
-            background-image: url('https://i.postimg.cc/yW9QCMbb/izobrazenie-2026-02-14-182819036.png');
-            transform: rotate(-5deg);
-        }
-
-        .duck-2 {
-            bottom: 15%;
-            right: 5%;
-            width: 180px;
-            height: 180px;
-            background-image: url('https://avatars.mds.yandex.net/i?id=124bd57b260e8a4e4661daa0de7ad51486ff1663-9033858-images-thumbs&n=13');
-            transform: rotate(10deg) scaleX(-1);
-        }
-
-        .duck-3 {
-            top: 40%;
-            right: 10%;
-            width: 130px;
-            height: 130px;
-            background-image: url('https://i.postimg.cc/yW9QCMbb/izobrazenie-2026-02-14-182819036.png');
-            transform: rotate(15deg);
-        }
+        .coin-1 { top: 5%; left: 20%; animation-delay: 0.5s; font-size: 32px; }
+        .coin-2 { top: 15%; right: 25%; animation-delay: 1.5s; font-size: 28px; }
+        .coin-3 { top: 30%; left: 40%; animation-delay: 2.5s; font-size: 36px; }
+        .coin-4 { top: 40%; right: 35%; animation-delay: 3.5s; font-size: 30px; }
+        .coin-5 { top: 50%; left: 60%; animation-delay: 4.5s; font-size: 26px; }
+        .coin-6 { top: 60%; right: 45%; animation-delay: 5.5s; font-size: 34px; }
+        .coin-7 { top: 70%; left: 75%; animation-delay: 6.5s; font-size: 28px; }
+        .coin-8 { top: 80%; right: 55%; animation-delay: 7.5s; font-size: 32px; }
+        .coin-9 { top: 90%; left: 85%; animation-delay: 8.5s; font-size: 24px; }
 
         .app {
             max-width: 500px;
@@ -101,13 +70,14 @@
         }
 
         .header {
-            background: rgba(30, 41, 59, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border-radius: 28px;
             padding: 16px 20px;
             margin-bottom: 20px;
-            border: 1px solid #FBBF24;
-            box-shadow: 0 8px 0 #0F172A;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1), 0 8px 20px rgba(0, 0, 0, 0.1);
         }
 
         .header-top {
@@ -125,27 +95,28 @@
         .duck-icon {
             width: 44px;
             height: 44px;
-            background: #FBBF24;
+            background: #FFD700;
             border-radius: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            box-shadow: 0 4px 0 #B45309;
+            box-shadow: 0 4px 0 #B8860B;
         }
 
         .logo-text {
             font-size: 22px;
             font-weight: 700;
-            color: #FBBF24;
-            text-shadow: 0 2px 0 #B45309;
+            color: #1E3A8A;
+            text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.5);
         }
 
         .balance-box {
-            background: #0F172A;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
             border-radius: 40px;
             padding: 8px 16px;
-            border: 2px solid #FBBF24;
+            border: 2px solid #FFD700;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -153,24 +124,26 @@
         }
 
         .balance-box.sync {
-            border-color: #34D399;
-            box-shadow: 0 0 15px #34D399;
+            border-color: #4CAF50;
+            box-shadow: 0 0 20px #4CAF50;
+            transform: scale(1.02);
         }
 
         .star-icon {
             font-size: 20px;
-            color: #FBBF24;
+            color: #FFD700;
         }
 
         .balance-num {
             font-size: 22px;
             font-weight: 700;
-            color: #FBBF24;
+            color: #1E3A8A;
         }
 
         .balance-label {
             font-size: 12px;
-            color: #94A3B8;
+            color: #1E3A8A;
+            opacity: 0.8;
         }
 
         .global-stats {
@@ -181,33 +154,41 @@
         }
 
         .global-stat-card {
-            background: rgba(30, 41, 59, 0.9);
-            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(8px);
             border-radius: 20px;
             padding: 12px 4px;
             text-align: center;
-            border: 1px solid #FBBF24;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.05);
         }
 
         .global-stat-value {
             font-size: 18px;
             font-weight: 700;
-            color: #FBBF24;
+            color: #1E3A8A;
         }
 
         .global-stat-label {
             font-size: 10px;
-            color: #94A3B8;
+            color: #1E3A8A;
+            opacity: 0.8;
             margin-top: 4px;
         }
 
         .menu-title {
             font-size: 18px;
-            color: #FBBF24;
+            color: #1E3A8A;
             margin-bottom: 16px;
             display: flex;
             align-items: center;
             gap: 8px;
+            font-weight: 600;
+        }
+
+        .menu-title::before {
+            content: '🦆';
+            font-size: 22px;
         }
 
         .games-grid {
@@ -218,33 +199,33 @@
         }
 
         .game-card {
-            background: rgba(30, 41, 59, 0.9);
-            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
             border-radius: 24px;
             padding: 24px 16px;
             cursor: pointer;
             border: 2px solid transparent;
             transition: all 0.2s;
-            box-shadow: 0 6px 0 #0F172A;
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
             text-align: center;
         }
 
         .game-card:hover {
-            border-color: #FBBF24;
+            border-color: #FFD700;
             transform: translateY(-4px);
-            box-shadow: 0 10px 0 #0F172A;
+            box-shadow: 0 10px 0 rgba(0, 0, 0, 0.1);
         }
 
         .card-emoji {
             font-size: 56px;
             margin-bottom: 12px;
-            filter: drop-shadow(0 4px 4px #00000066);
+            filter: drop-shadow(0 4px 4px rgba(0,0,0,0.1));
         }
 
         .card-name {
             font-size: 20px;
             font-weight: 700;
-            color: #FBBF24;
+            color: #1E3A8A;
             margin-bottom: 4px;
         }
 
@@ -257,21 +238,22 @@
         }
 
         .card-stat {
-            background: #0F172A;
+            background: rgba(255, 255, 255, 0.5);
             padding: 4px 10px;
             border-radius: 20px;
-            color: #FBBF24;
+            color: #1E3A8A;
+            font-weight: 600;
         }
 
         .game-menu {
             display: none;
-            background: rgba(30, 41, 59, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
             border-radius: 28px;
             padding: 20px;
             margin-bottom: 20px;
-            border: 2px solid #FBBF24;
-            box-shadow: 0 8px 0 #0F172A;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
         }
 
         .game-menu-header {
@@ -280,25 +262,25 @@
             gap: 16px;
             margin-bottom: 20px;
             padding-bottom: 16px;
-            border-bottom: 2px solid #FBBF24;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
         }
 
         .game-menu-emoji {
             font-size: 48px;
-            background: #0F172A;
+            background: rgba(255, 255, 255, 0.4);
             width: 80px;
             height: 80px;
             border-radius: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid #FBBF24;
+            border: 2px solid #FFD700;
         }
 
         .game-menu-info h2 {
             font-size: 28px;
             font-weight: 700;
-            color: #FBBF24;
+            color: #1E3A8A;
         }
 
         .game-menu-stats {
@@ -309,36 +291,38 @@
         }
 
         .game-menu-stat {
-            background: #0F172A;
+            background: rgba(255, 255, 255, 0.4);
             border-radius: 16px;
             padding: 12px 4px;
             text-align: center;
-            border: 1px solid #FBBF24;
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         .stat-value {
             font-size: 18px;
             font-weight: 700;
-            color: #FBBF24;
+            color: #1E3A8A;
         }
 
         .stat-label {
             font-size: 10px;
-            color: #94A3B8;
+            color: #1E3A8A;
+            opacity: 0.8;
         }
 
         .game-menu-history {
-            background: #0F172A;
+            background: rgba(255, 255, 255, 0.4);
             border-radius: 20px;
             padding: 16px;
             margin-bottom: 20px;
-            border: 1px solid #FBBF24;
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         .history-title {
             font-size: 16px;
-            color: #FBBF24;
+            color: #1E3A8A;
             margin-bottom: 12px;
+            font-weight: 600;
         }
 
         .history-list {
@@ -352,25 +336,25 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px 16px;
-            background: #1E293B;
+            background: rgba(255, 255, 255, 0.3);
             border-radius: 16px;
             font-size: 14px;
         }
 
-        .history-win { color: #FBBF24; }
-        .history-lose { color: #94A3B8; }
+        .history-win { color: #2E7D32; font-weight: 600; }
+        .history-lose { color: #C62828; font-weight: 600; }
 
         .history-amount-win {
-            background: #FBBF24;
-            color: #0F172A;
+            background: #4CAF50;
+            color: white;
             padding: 4px 12px;
             border-radius: 20px;
             font-weight: 600;
         }
 
         .history-amount-lose {
-            background: #475569;
-            color: #FBBF24;
+            background: #F44336;
+            color: white;
             padding: 4px 12px;
             border-radius: 20px;
         }
@@ -389,33 +373,34 @@
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
+            backdrop-filter: blur(5px);
         }
 
         .menu-btn.play {
-            background: #FBBF24;
-            color: #0F172A;
-            box-shadow: 0 6px 0 #B45309;
+            background: #FFD700;
+            color: #1E3A8A;
+            box-shadow: 0 6px 0 #B8860B;
         }
 
         .menu-btn.play:hover {
             transform: translateY(-3px);
-            box-shadow: 0 9px 0 #B45309;
+            box-shadow: 0 9px 0 #B8860B;
         }
 
         .menu-btn.back {
-            background: #475569;
-            color: #FBBF24;
-            box-shadow: 0 6px 0 #1E293B;
+            background: rgba(255, 255, 255, 0.5);
+            color: #1E3A8A;
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
         }
 
         .game-play-area {
             display: none;
-            background: rgba(30, 41, 59, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
             border-radius: 28px;
             padding: 24px;
-            border: 2px solid #FBBF24;
-            box-shadow: 0 8px 0 #0F172A;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
         }
 
         .play-header {
@@ -428,15 +413,15 @@
         .play-title {
             font-size: 24px;
             font-weight: 700;
-            color: #FBBF24;
+            color: #1E3A8A;
         }
 
         .play-balance {
-            background: #0F172A;
+            background: rgba(255, 255, 255, 0.5);
             padding: 8px 16px;
             border-radius: 40px;
-            border: 1px solid #FBBF24;
-            color: #FBBF24;
+            border: 1px solid #FFD700;
+            color: #1E3A8A;
             font-weight: 600;
         }
 
@@ -448,12 +433,13 @@
         }
 
         .slot-cell {
-            background: #0F172A;
+            background: rgba(255, 255, 255, 0.5);
             border-radius: 24px;
             padding: 24px 8px;
             font-size: 48px;
             text-align: center;
-            border: 2px solid #FBBF24;
+            border: 2px solid #FFD700;
+            box-shadow: inset 0 -4px 0 #B8860B;
         }
 
         .dice-display {
@@ -465,14 +451,14 @@
         .dice-box {
             width: 120px;
             height: 120px;
-            background: #0F172A;
+            background: rgba(255, 255, 255, 0.5);
             border-radius: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 64px;
-            border: 3px solid #FBBF24;
-            box-shadow: 0 8px 0 #B45309;
+            border: 3px solid #FFD700;
+            box-shadow: 0 8px 0 #B8860B;
         }
 
         .choice-grid {
@@ -484,22 +470,22 @@
 
         .choice-btn {
             aspect-ratio: 1;
-            background: #0F172A;
-            border: 2px solid #FBBF24;
+            background: rgba(255, 255, 255, 0.5);
+            border: 2px solid #FFD700;
             border-radius: 20px;
             font-size: 24px;
             font-weight: 700;
-            color: #FBBF24;
+            color: #1E3A8A;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 4px 0 #B45309;
+            box-shadow: 0 4px 0 #B8860B;
         }
 
         .choice-btn.selected {
-            background: #FBBF24;
-            color: #0F172A;
+            background: #FFD700;
+            color: #1E3A8A;
             transform: translateY(2px);
-            box-shadow: 0 2px 0 #B45309;
+            box-shadow: 0 2px 0 #B8860B;
         }
 
         .cases-grid {
@@ -511,7 +497,7 @@
 
         .case-item {
             aspect-ratio: 1;
-            background: #FBBF24;
+            background: #FFD700;
             border-radius: 24px;
             display: flex;
             align-items: center;
@@ -519,29 +505,34 @@
             font-size: 32px;
             cursor: pointer;
             transition: all 0.3s;
-            border: 3px solid #F59E0B;
-            box-shadow: 0 6px 0 #B45309;
-            color: #0F172A;
+            border: 3px solid #B8860B;
+            box-shadow: 0 6px 0 #8B4513;
+            color: #1E3A8A;
             font-weight: bold;
         }
 
         .case-item.opened {
-            background: #475569;
-            border-color: #64748B;
-            box-shadow: 0 4px 0 #334155;
+            background: rgba(255, 255, 255, 0.5);
+            border-color: #1E3A8A;
+            box-shadow: 0 4px 0 #0F172A;
         }
 
         .bet-field {
             width: 100%;
             padding: 16px;
-            background: #0F172A;
-            border: 2px solid #FBBF24;
+            background: rgba(255, 255, 255, 0.5);
+            border: 2px solid #FFD700;
             border-radius: 40px;
             font-size: 20px;
             text-align: center;
             font-weight: 600;
-            color: #FBBF24;
+            color: #1E3A8A;
             margin: 15px 0;
+        }
+
+        .bet-field:focus {
+            outline: none;
+            border-color: #1E3A8A;
         }
 
         .game-buttons {
@@ -562,15 +553,20 @@
         }
 
         .game-btn.primary {
-            background: #FBBF24;
-            color: #0F172A;
-            box-shadow: 0 6px 0 #B45309;
+            background: #FFD700;
+            color: #1E3A8A;
+            box-shadow: 0 6px 0 #B8860B;
+        }
+
+        .game-btn.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 0 #B8860B;
         }
 
         .game-btn.secondary {
-            background: #475569;
-            color: #FBBF24;
-            box-shadow: 0 6px 0 #1E293B;
+            background: rgba(255, 255, 255, 0.5);
+            color: #1E3A8A;
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
         }
 
         .game-result {
@@ -580,28 +576,51 @@
             font-size: 18px;
             font-weight: 600;
             text-align: center;
+            animation: resultPop 0.3s;
+        }
+
+        @keyframes resultPop {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .win-result {
-            background: #FBBF2433;
-            color: #FBBF24;
-            border: 2px solid #FBBF24;
+            background: rgba(76, 175, 80, 0.2);
+            color: #2E7D32;
+            border: 2px solid #4CAF50;
         }
 
         .lose-result {
-            background: #47556933;
-            color: #94A3B8;
-            border: 2px solid #64748B;
+            background: rgba(244, 67, 54, 0.2);
+            color: #C62828;
+            border: 2px solid #F44336;
         }
 
         .error-msg {
-            background: #7F1D1D33;
-            color: #FCA5A5;
+            background: rgba(244, 67, 54, 0.2);
+            color: #C62828;
             padding: 14px;
             border-radius: 40px;
             margin: 10px 0;
-            border: 2px solid #DC2626;
+            border: 2px solid #F44336;
             text-align: center;
+            animation: errorShake 0.4s;
+        }
+
+        @keyframes errorShake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+
+        .sync-animation {
+            animation: syncFlash 0.5s;
+        }
+
+        @keyframes syncFlash {
+            0% { background-color: rgba(255, 215, 0, 0.3); }
+            50% { background-color: rgba(76, 175, 80, 0.3); }
+            100% { background-color: transparent; }
         }
     </style>
 </head>
@@ -614,6 +633,9 @@
     <div class="bg-emoji star-5">🌟</div>
     <div class="bg-emoji star-6">✨</div>
     <div class="bg-emoji star-7">⭐️</div>
+    <div class="bg-emoji star-8">🌟</div>
+    <div class="bg-emoji star-9">✨</div>
+    <div class="bg-emoji star-10">⭐️</div>
 
     <!-- Монетки на фоне -->
     <div class="bg-emoji coin-1">🪙</div>
@@ -622,11 +644,9 @@
     <div class="bg-emoji coin-4">💎</div>
     <div class="bg-emoji coin-5">🪙</div>
     <div class="bg-emoji coin-6">💰</div>
-
-    <!-- Утки на фоне -->
-    <div class="duck-bg duck-1"></div>
-    <div class="duck-bg duck-2"></div>
-    <div class="duck-bg duck-3"></div>
+    <div class="bg-emoji coin-7">🪙</div>
+    <div class="bg-emoji coin-8">💎</div>
+    <div class="bg-emoji coin-9">💰</div>
 
     <div class="app">
         <div class="header">
@@ -710,22 +730,34 @@
         let syncInterval = null;
         let globalStats = {};
         let userStats = {};
+        let syncInProgress = false;
 
         tg.expand();
 
-        // ===== СИНХРОНИЗАЦИЯ БАЛАНСА =====
+        // ===== ИДЕАЛЬНАЯ СИНХРОНИЗАЦИЯ БАЛАНСА =====
         async function syncBalance() {
             if (!userId) {
                 console.log('Нет ID пользователя');
                 return;
             }
             
+            if (syncInProgress) {
+                console.log('Синхронизация уже выполняется');
+                return;
+            }
+            
+            syncInProgress = true;
+            
             try {
-                console.log('Синхронизация баланса...');
+                console.log('🔄 Синхронизация баланса...');
                 const response = await fetch(`/api/balance?user_id=${userId}&t=${Date.now()}`);
-                const data = await response.json();
                 
-                console.log('Ответ от бота:', data);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('📦 Ответ от бота:', data);
                 
                 if (data.success) {
                     const oldBalance = userBalance;
@@ -733,96 +765,82 @@
                     
                     // Обновляем все элементы с балансом
                     const balanceDisplay = document.getElementById('balanceDisplay');
-                    if (balanceDisplay) balanceDisplay.textContent = userBalance;
+                    if (balanceDisplay) {
+                        balanceDisplay.textContent = userBalance;
+                    }
                     
                     const playBalance = document.getElementById('playBalance');
-                    if (playBalance) playBalance.textContent = userBalance;
+                    if (playBalance) {
+                        playBalance.textContent = userBalance;
+                    }
                     
-                    console.log('Баланс обновлен:', userBalance);
+                    console.log('💰 Баланс обновлен:', oldBalance, '→', userBalance);
                     
-                    // Анимация при изменении
+                    // Визуальный эффект при изменении
                     if (oldBalance !== userBalance) {
                         const balanceBox = document.getElementById('balanceBox');
                         if (balanceBox) {
                             balanceBox.classList.add('sync');
-                            setTimeout(() => balanceBox.classList.remove('sync'), 300);
+                            setTimeout(() => balanceBox.classList.remove('sync'), 500);
                         }
+                        
+                        // Показываем всплывающее уведомление
+                        showNotification(`Баланс: ${userBalance} ⭐️`, 'info');
                     }
                     
                     // Обновляем статистику
                     if (data.global_stats) {
                         updateGlobalStats(data.global_stats);
                     }
+                    
                     if (data.user_stats) {
+                        const oldStats = JSON.stringify(userStats);
                         userStats = data.user_stats;
-                        console.log('Статистика пользователя обновлена');
+                        console.log('📊 Статистика пользователя обновлена');
+                        
+                        // Если открыто меню игры, обновляем его
+                        if (document.getElementById('gameMenu').style.display === 'block' && currentGame) {
+                            refreshGameMenu(currentGame);
+                        }
                     }
                 } else {
-                    console.error('Ошибка синхронизации:', data.message);
+                    console.error('❌ Ошибка синхронизации:', data.message);
                 }
             } catch (error) {
-                console.error('Ошибка сети при синхронизации:', error);
+                console.error('❌ Ошибка сети при синхронизации:', error);
+            } finally {
+                syncInProgress = false;
             }
         }
 
-        // ПРИНУДИТЕЛЬНАЯ СИНХРОНИЗАЦИЯ ПЕРЕД ИГРОЙ
-        async function preGameSync() {
-            console.log('Принудительная синхронизация перед игрой');
-            await syncBalance();
-            return userBalance;
+        // Показать уведомление
+        function showNotification(text, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#F44336' : '#FFD700'};
+                color: ${type === 'info' ? '#1E3A8A' : 'white'};
+                padding: 12px 24px;
+                border-radius: 40px;
+                font-weight: 600;
+                z-index: 9999;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                animation: slideDown 0.3s;
+            `;
+            notification.textContent = text;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideUp 0.3s';
+                setTimeout(() => notification.remove(), 300);
+            }, 2000);
         }
 
-        // Обновление глобальной статистики
-        function updateGlobalStats(stats) {
-            globalStats = stats;
-            
-            let totalPlays = 0;
-            let totalWins = 0;
-            let totalBank = 0;
-            
-            for (let game in stats) {
-                totalPlays += stats[game].total_plays || 0;
-                totalWins += stats[game].total_wins || 0;
-                totalBank += stats[game].total_won || 0;
-                
-                const elem = document.getElementById(`${game}Global`);
-                if (elem) elem.textContent = `⚡️ ${stats[game].total_plays || 0}`;
-            }
-            
-            const winRate = totalPlays > 0 ? Math.round((totalWins / totalPlays) * 100) : 0;
-            
-            const playsElem = document.getElementById('globalPlays');
-            const winsElem = document.getElementById('globalWins');
-            const rateElem = document.getElementById('globalWinRate');
-            const bankElem = document.getElementById('globalBank');
-            
-            if (playsElem) playsElem.textContent = totalPlays;
-            if (winsElem) winsElem.textContent = totalWins;
-            if (rateElem) rateElem.textContent = winRate + '%';
-            if (bankElem) bankElem.textContent = totalBank;
-        }
-
-        // Запуск синхронизации
-        function startBalanceSync() {
-            if (syncInterval) clearInterval(syncInterval);
-            syncBalance(); // сразу синхронизируем
-            syncInterval = setInterval(syncBalance, 2000); // каждые 2 секунды
-            console.log('Автосинхронизация запущена');
-        }
-
-        // Остановка синхронизации
-        function stopBalanceSync() {
-            if (syncInterval) {
-                clearInterval(syncInterval);
-                syncInterval = null;
-                console.log('Автосинхронизация остановлена');
-            }
-        }
-
-        // ===== НАВИГАЦИЯ =====
-        function showGameMenu(game) {
-            currentGame = game;
-            
+        // Обновить меню игры
+        function refreshGameMenu(game) {
             const titles = {
                 slots: { emoji: '🎰', name: 'Слоты' },
                 dice: { emoji: '🎲', name: 'Кости' },
@@ -870,11 +888,72 @@
             `;
 
             document.getElementById('gameMenu').innerHTML = menuHtml;
+        }
+
+        // ПРИНУДИТЕЛЬНАЯ СИНХРОНИЗАЦИЯ ПЕРЕД ИГРОЙ
+        async function preGameSync() {
+            console.log('⚠️ Принудительная синхронизация перед игрой');
+            await syncBalance();
+            return userBalance;
+        }
+
+        // Обновление глобальной статистики
+        function updateGlobalStats(stats) {
+            globalStats = stats;
+            
+            let totalPlays = 0;
+            let totalWins = 0;
+            let totalBank = 0;
+            
+            for (let game in stats) {
+                totalPlays += stats[game].total_plays || 0;
+                totalWins += stats[game].total_wins || 0;
+                totalBank += stats[game].total_won || 0;
+                
+                const elem = document.getElementById(`${game}Global`);
+                if (elem) elem.textContent = `⚡️ ${stats[game].total_plays || 0}`;
+            }
+            
+            const winRate = totalPlays > 0 ? Math.round((totalWins / totalPlays) * 100) : 0;
+            
+            const playsElem = document.getElementById('globalPlays');
+            const winsElem = document.getElementById('globalWins');
+            const rateElem = document.getElementById('globalWinRate');
+            const bankElem = document.getElementById('globalBank');
+            
+            if (playsElem) playsElem.textContent = totalPlays;
+            if (winsElem) winsElem.textContent = totalWins;
+            if (rateElem) rateElem.textContent = winRate + '%';
+            if (bankElem) bankElem.textContent = totalBank;
+        }
+
+        // Запуск синхронизации
+        function startBalanceSync() {
+            if (syncInterval) clearInterval(syncInterval);
+            syncBalance(); // сразу синхронизируем
+            syncInterval = setInterval(syncBalance, 2000); // каждые 2 секунды
+            console.log('✅ Автосинхронизация запущена (интервал 2 секунды)');
+        }
+
+        // Остановка синхронизации
+        function stopBalanceSync() {
+            if (syncInterval) {
+                clearInterval(syncInterval);
+                syncInterval = null;
+                console.log('⏹ Автосинхронизация остановлена');
+            }
+        }
+
+        // ===== НАВИГАЦИЯ =====
+        function showGameMenu(game) {
+            currentGame = game;
+            refreshGameMenu(game);
+            
             document.getElementById('mainMenu').style.display = 'none';
             document.getElementById('gameMenu').style.display = 'block';
             document.getElementById('gamePlay').style.display = 'none';
             
-            syncBalance();
+            syncBalance(); // СИНХРОНИЗАЦИЯ ПРИ ОТКРЫТИИ МЕНЮ
         }
 
         function startGame(game) {
@@ -977,7 +1056,7 @@
             setTimeout(() => errorDiv.remove(), 3000);
         }
 
-        // ===== ИГРЫ =====
+        // ===== ИГРЫ С ПРИНУДИТЕЛЬНОЙ СИНХРОНИЗАЦИЕЙ =====
         async function playSlots() {
             await preGameSync(); // ПРИНУДИТЕЛЬНАЯ СИНХРОНИЗАЦИЯ ПЕРЕД ИГРОЙ
             
@@ -997,6 +1076,7 @@
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({user_id: userId, action: 'slots', bet})
                 });
+                
                 const result = await response.json();
                 
                 if (result.success) {
@@ -1021,8 +1101,15 @@
                         resultDiv.textContent = result.win ? `🎉 +${result.win_amount} ⭐️` : '❌ Проигрыш';
                     }
                     
+                    // ПОКАЗЫВАЕМ УВЕДОМЛЕНИЕ
+                    if (result.win) {
+                        showNotification(`+${result.win_amount} ⭐️`, 'success');
+                    }
+                    
                     // СИНХРОНИЗАЦИЯ ПОСЛЕ ИГРЫ
                     await syncBalance();
+                } else {
+                    showError(result.message || 'Ошибка игры');
                 }
             } catch (error) {
                 console.error('Game error:', error);
@@ -1054,6 +1141,7 @@
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({user_id: userId, action: 'dice', bet, choice: selectedChoice})
                 });
+                
                 const result = await response.json();
                 
                 if (result.success) {
@@ -1076,7 +1164,13 @@
                         resultDiv.textContent = result.win ? `🎉 +${result.win_amount} ⭐️` : '❌ Проигрыш';
                     }
                     
+                    if (result.win) {
+                        showNotification(`+${result.win_amount} ⭐️`, 'success');
+                    }
+                    
                     await syncBalance();
+                } else {
+                    showError(result.message || 'Ошибка игры');
                 }
             } catch (error) {
                 console.error('Game error:', error);
@@ -1108,6 +1202,7 @@
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({user_id: userId, action: 'coin', bet, choice: selectedChoice})
                 });
+                
                 const result = await response.json();
                 
                 if (result.success) {
@@ -1130,7 +1225,13 @@
                         resultDiv.textContent = result.win ? `🎉 +${result.win_amount} ⭐️` : '❌ Проигрыш';
                     }
                     
+                    if (result.win) {
+                        showNotification(`+${result.win_amount} ⭐️`, 'success');
+                    }
+                    
                     await syncBalance();
+                } else {
+                    showError(result.message || 'Ошибка игры');
                 }
             } catch (error) {
                 console.error('Game error:', error);
@@ -1152,6 +1253,7 @@
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({user_id: userId, action: 'case', case: caseNum})
                 });
+                
                 const result = await response.json();
                 
                 if (result.success) {
@@ -1176,7 +1278,10 @@
                         resultDiv.textContent = `🎉 +${result.prize} ⭐️`;
                     }
                     
+                    showNotification(`+${result.prize} ⭐️`, 'success');
                     await syncBalance();
+                } else {
+                    showError(result.message || 'Ошибка игры');
                 }
             } catch (error) {
                 console.error('Game error:', error);
@@ -1198,13 +1303,35 @@
 
         // ИНИЦИАЛИЗАЦИЯ - запускаем синхронизацию сразу
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Страница загружена, запуск синхронизации...');
+            console.log('🚀 Страница загружена, запуск синхронизации...');
             startBalanceSync();
+            
+            // Добавляем стили для анимаций
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideDown {
+                    from { transform: translate(-50%, -100px); opacity: 0; }
+                    to { transform: translate(-50%, 0); opacity: 1; }
+                }
+                @keyframes slideUp {
+                    from { transform: translate(-50%, 0); opacity: 1; }
+                    to { transform: translate(-50%, -100px); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
         });
 
         // При закрытии останавливаем
         window.addEventListener('beforeunload', function() {
             stopBalanceSync();
+        });
+
+        // Дополнительная синхронизация при возвращении на страницу
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                console.log('📱 Страница снова активна, синхронизация...');
+                syncBalance();
+            }
         });
     </script>
 </body>
