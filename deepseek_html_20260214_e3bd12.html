@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Тест подключения</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #87CEEB;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #1E3A8A;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        pre {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🦆 Тест подключения к боту</h1>
+        
+        <div id="info">
+            <p><strong>User ID:</strong> <span id="userId">Загрузка...</span></p>
+            <p><strong>Статус:</strong> <span id="status">Проверка...</span></p>
+        </div>
+
+        <button onclick="testGetBalance()">1. Тест get_balance</button>
+        <button onclick="testSlots()">2. Тест slots</button>
+        <button onclick="testDice()">3. Тест dice</button>
+        
+        <h3>Ответ:</h3>
+        <pre id="response">Нажмите кнопку для теста</pre>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        
+        const userId = tg.initDataUnsafe?.user?.id;
+        document.getElementById('userId').textContent = userId || '❌ НЕТ USER ID';
+        
+        if (userId) {
+            document.getElementById('status').innerHTML = '✅ User ID получен';
+        } else {
+            document.getElementById('status').innerHTML = '❌ Ошибка: нет User ID';
+        }
+
+        async function sendRequest(action, data = {}) {
+            document.getElementById('response').textContent = 'Отправка запроса...';
+            
+            try {
+                const response = await fetch('/api/game', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        action: action,
+                        ...data
+                    })
+                });
+
+                const text = await response.text();
+                document.getElementById('response').textContent = text;
+                
+                try {
+                    const json = JSON.parse(text);
+                    console.log('Ответ:', json);
+                    return json;
+                } catch (e) {
+                    console.log('Не JSON ответ:', text);
+                    return null;
+                }
+            } catch (error) {
+                document.getElementById('response').textContent = '❌ Ошибка: ' + error.message;
+                console.error('Ошибка:', error);
+            }
+        }
+
+        function testGetBalance() {
+            sendRequest('get_balance');
+        }
+
+        function testSlots() {
+            sendRequest('slots', { bet: 10 });
+        }
+
+        function testDice() {
+            sendRequest('dice', { bet: 5, choice: 3 });
+        }
+    </script>
+</body>
+</html>
